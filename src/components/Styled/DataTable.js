@@ -16,7 +16,7 @@ export const Table = styled.table`
 
 export const THead= styled.thead`
  background-color: ${props=> props.background};
-  color: #ffffff;
+  color: ${props=> props.background? "#ffffff": "black"};
   text-align: left;
   font-weight: bold;
 `
@@ -48,5 +48,5 @@ export const TBody= styled.tbody`
 }`
 
 export const Tr= styled.tr`
-
+cursor: ${props=> props.header && props.cursorPointer? 'pointer': 'default'};
 `

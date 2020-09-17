@@ -1,27 +1,27 @@
 import React from 'react'
-
-import DataTable, { ExampleComponent } from 'react-datatable'
-import 'react-datatable/dist/index.css'
+import {DataTable} from 'react-datatable'
 
 const columns= [{
-  Header: 'ID',
-  accessor: 'id'
+  name: 'ID',
+  fieldId: 'id'
 },
  {
-  Header: "Nombre",
-  accessor: "name"
+  name: "Nombre",
+  fieldId: "name"
 },
  {
-  Header: "Apellido",
-  accessor: "lastName"
+  name: "Apellido",
+  fieldId: "lastName"
 }]
 
 
 const App = () => {
   return (
     <div>
-      <ExampleComponent text="Create React Library Example 😄" />
-      <DataTable columns={columns}/>
+      <div style={{textAlign: 'center'}}>
+      <h2>Prueba de la tabla</h2>
+      </div>
+      <DataTable columns={columns} options={{headerBackground: '#007ACC'}}/>
     </div>
   )
 }

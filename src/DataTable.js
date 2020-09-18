@@ -1,8 +1,12 @@
-/* eslint-disable react/jsx-key */
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react'
-import { Table, THead, TBody, Th, Td, Tr } from './components/Styled/DataTable'
+import { Conteiner,Table, THead, TBody, Th, Td, Tr } from './components/Styled/DataTable'
+import TableToolBar from './components/TableToolBar';
 import { DataTableProps } from './PropTypes'
+
+
+
+import {formatColumnItem} from './utils/DataTypeFormater';
 
 const DataTable = ({ columns, remoteData, options }) => {
   const [tableValues, setValues] = useState({
@@ -13,12 +17,7 @@ const DataTable = ({ columns, remoteData, options }) => {
       by: 'id',
       isDescending: false
     },
-    filters: {
-      fieldName: '',
-      operator: '',
-      fuctions: '',
-      value: ''
-    }
+    filters: {}
   })
 
   const [pagination, setPagination] = useState({
@@ -34,7 +33,7 @@ const DataTable = ({ columns, remoteData, options }) => {
   const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
-    remoteData && fetch()
+    remoteData &&  fetch()
   }, [])
 
   async function fetch() {
@@ -67,7 +66,8 @@ const DataTable = ({ columns, remoteData, options }) => {
   function orderByColumn() {}
 
   return (
-    <div>
+    <Conteiner>
+      <TableToolBar/>
       <Table>
         <THead background={options?.headerBackground}>
           <Tr header cursorPointer>
@@ -83,13 +83,16 @@ const DataTable = ({ columns, remoteData, options }) => {
           {data.map((item, index) => (
             <Tr key={index}>
               {Object.keys(item).map((cell, cellIndex) => (
-                <Td key={cellIndex}>{cell}</Td>
+                <Td key={cellIndex}>
+                {
+                  formatColumnItem(columns.filter(s=> s.fieldId=== cell)[0],item[cell])
+                }</Td>
               ))}
             </Tr>
           ))}
         </TBody>
       </Table>
-    </div>
+    </Conteiner>
   )
 }
 

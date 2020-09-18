@@ -2,6 +2,11 @@
 import styled from 'styled-components';
 
 
+export const Conteiner= styled.div`
+width: 90%;
+margin: 0 auto;
+`
+
 export const Table = styled.table`
   border-collapse: collapse;
   margin: 25px 0;
@@ -11,7 +16,6 @@ export const Table = styled.table`
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   width: 90%;
-  margin: 0 auto;
 `
 
 export const THead= styled.thead`

@@ -53,6 +53,7 @@
   "dependencies": {
     "numeral": "^2.0.6",
     "prop-types": "^15.7.2",
+    "react-icons": "^3.11.0",
     "styled-components": "^5.2.0"
   }
 }

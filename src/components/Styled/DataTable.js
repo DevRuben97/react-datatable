@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 
 export const Conteiner= styled.div`
-width: 90%;
 margin: 0 auto;
+width: 90%;
 `
 
 export const Table = styled.table`
@@ -15,7 +15,7 @@ export const Table = styled.table`
   border-radius: 5px 5px 0 0;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  width: 90%;
+  width: 100%;
 `
 
 export const THead= styled.thead`

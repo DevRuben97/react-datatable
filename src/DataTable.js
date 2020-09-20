@@ -1,15 +1,17 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react'
 import { Conteiner,Table, THead, TBody, Th, Td, Tr } from './components/Styled/DataTable'
-import TableToolBar from './components/TableToolBar';
+import TableToolBar from './components/DataTable/TableToolBar';
+import TableFooter from './components/DataTable/Footer';
 import { DataTableProps } from './PropTypes'
-
-
-
+import {AiOutlineArrowUp} from 'react-icons/ai';
 import {formatColumnItem} from './utils/DataTypeFormater';
 
+
+
 const DataTable = ({ columns, remoteData, options }) => {
-  const [tableValues, setValues] = useState({
+
+  const requestData= {
     pageNumber: 1,
     pageSize: 10,
     search: '',
@@ -18,7 +20,9 @@ const DataTable = ({ columns, remoteData, options }) => {
       isDescending: false
     },
     filters: {}
-  })
+  }
+
+  const [tableValues, setValues] = useState(requestData);
 
   const [pagination, setPagination] = useState({
     pageNumber: 0,
@@ -26,7 +30,7 @@ const DataTable = ({ columns, remoteData, options }) => {
     TotalPages: 0,
     NextPage: 0,
     PreviousPage: 0,
-    TotalRecords: 0
+    totalRecords: 0
   })
   const [data, setData] = useState([])
   const [isFiltering, setIsFiltering] = useState(false)
@@ -36,20 +40,30 @@ const DataTable = ({ columns, remoteData, options }) => {
     remoteData &&  fetch()
   }, [])
 
-  async function fetch() {
+  async function fetch(reload) {
     setLoading(true)
-    const { data } = await remoteData(tableValues)
+    const { data } = await remoteData(reload? requestData: tableValues)
     setPagination(data)
     setData(data.data)
   }
 
-  function search() {}
+ async function search(value) {
+    setLoading(true);
+    const newObj= {...tableValues, search: value};
+    setValues(newObj);
+
+    const { data } = await remoteData(newObj)
+    setPagination(data)
+    setData(data.data)
+    setLoading(false);
+
+  }
 
   async function filter(obj) {
     const newObj = { ...tableValues, pageNumber: 1, filters: obj }
     setValues(newObj)
 
-    const { data } = await remoteData(tableValues)
+    const { data } = await remoteData(newObj)
     setPagination(data)
     setData(data.data)
   }
@@ -58,7 +72,7 @@ const DataTable = ({ columns, remoteData, options }) => {
     const obj = { ...tableValues, pageNumber: page }
     setValues(obj)
 
-    const { data } = await remoteData(tableValues)
+    const { data } = await remoteData(obj)
     setPagination(data)
     setData(data)
   }
@@ -67,21 +81,24 @@ const DataTable = ({ columns, remoteData, options }) => {
 
   return (
     <Conteiner>
-      <TableToolBar/>
+      <TableToolBar 
+      searchFunction={search}
+      fetchData={fetch}
+      />
       <Table>
         <THead background={options?.headerBackground}>
           <Tr header cursorPointer>
             {columns.map((column, index) => (
               <Th key={index}>
                 {column.name}
-                 <i className="fas fa-arrow-up" />
+                 <AiOutlineArrowUp/>
               </Th>
             ))}
           </Tr>
         </THead>
-        <TBody>
+        <TBody primaryColor={options?.headerBackground}>
           {data.map((item, index) => (
-            <Tr key={index}>
+            <Tr key={index} >
               {Object.keys(item).map((cell, cellIndex) => (
                 <Td key={cellIndex}>
                 {
@@ -91,6 +108,11 @@ const DataTable = ({ columns, remoteData, options }) => {
             </Tr>
           ))}
         </TBody>
+        <tfoot>
+          <TableFooter
+          totalPages={pagination.totalRecords}
+          />
+        </tfoot>
       </Table>
     </Conteiner>
   )

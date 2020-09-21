@@ -14,7 +14,7 @@ export const Button = styled.button`
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
-  background-color: ${props=> props.backgroundColor};
+  background-color: ${props=> props.theme.primary};
   border-radius: 4px;
   border: 1px solid ${props=> props.background};
   cursor: pointer;
@@ -31,11 +31,11 @@ export const Button = styled.button`
 `
 
 export const CircleButton= styled.button`
-  background-color: ${props=> props.background};
+  background-color: ${props=> props.theme.primary};
   width:42px;
   height:42px;
   border-radius:100%;
-  background:${props=> props.background};
+  background:${props=> props.theme.primary};
   border:none;
   outline:none;
   color:#FFF;

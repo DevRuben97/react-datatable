@@ -14,7 +14,7 @@ const Input= styled.input`
     width: 100%;
 
     &:focus{
-        border: 1px solid ${props=> props.focusColor};
+        border: 1px solid ${props=> props.theme.primary};
         outline: 0;
     }
 `

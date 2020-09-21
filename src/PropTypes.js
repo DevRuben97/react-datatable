@@ -10,6 +10,28 @@ export const DataTableProps = {
   })),
   remoteData: PropTypes.func.isRequired,
   options: PropTypes.shape({
-      headerBackground: PropTypes.string
-  })
+    theme: PropTypes.shape({
+      primary: PropTypes.string,
+      fontFamily: PropTypes.string
+    }),
+    title: PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      align: PropTypes.oneOfType(['left','center','Right']),
+      icon: PropTypes.func
+    }).isRequired,
+    rowActions: PropTypes.shape({
+      type: PropTypes.oneOfType(['icon','select']),
+      actions: PropTypes.arrayOf(PropTypes.shape({
+        icon: PropTypes.func,
+        show: PropTypes.bool,
+        label: PropTypes.string,
+        onClick: PropTypes.func
+      }))
+    }),
+    addButton: PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      onClick: PropTypes.func,
+      show: PropTypes.bool
+    })
+  }).isRequired
 }

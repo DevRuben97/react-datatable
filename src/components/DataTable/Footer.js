@@ -2,6 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Select from '../Select'
+import Paginator from './Paginator';
 import { Td, Tr } from '../Styled/DataTable'
 
 const PaginatorContainer = styled.div`
@@ -50,14 +51,16 @@ const TableFooter = ({
       <Td colSpan={12}>
         <PaginatorContainer>
           {/* Selector de paginas */}
-          <Select items={pages}
-          placeholder="# Registros por pagina"
-          onChangeValue={(event)=> changePageSize(event.target.value)}
-          
+          <Select
+            items={pages}
+            placeholder='# Registros por pagina'
+            onChangeValue={(event) => changePageSize(event.target.value)}
+            disabled={totalRecords === 0}
           />
           {/* Indicador de paginas totales */}
-          <p>Hay un total de {totalPages} registros</p>
+          <p>Hay un total de {totalRecords} registros</p>
           {/* Paginador */}
+          <Paginator pages={totalPages} currentPage={currentPage}/>
         </PaginatorContainer>
       </Td>
     </Tr>

@@ -1,8 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react'
-import { Conteiner,Table, THead, TBody, Th, Td, Tr } from './components/Styled/DataTable'
+import {ThemeProvider} from 'styled-components';
+import { Conteiner,TableTitle,Table, THead, TBody, Th, Td, Tr } from './components/Styled/DataTable'
 import TableToolBar from './components/DataTable/TableToolBar';
 import TableFooter from './components/DataTable/Footer';
+import DtCheckbox from './components/DataTable/DtCheckBox';
+import LoadingView from './components/DataTable/LoadingView';
+import EmptyView from './components/DataTable/EmptyView';
 import { DataTableProps } from './PropTypes'
 import {AiOutlineArrowUp} from 'react-icons/ai';
 import {formatColumnItem} from './utils/DataTypeFormater';
@@ -25,11 +29,11 @@ const DataTable = ({ columns, remoteData, options }) => {
   const [tableValues, setValues] = useState(requestData);
 
   const [pagination, setPagination] = useState({
-    pageNumber: 0,
+    pageNumber: 1,
     pageSize: 0,
-    TotalPages: 0,
-    NextPage: 0,
-    PreviousPage: 0,
+    totalPages: 0,
+    nextPage: 0,
+    previousPage: 0,
     totalRecords: 0
   })
   const [data, setData] = useState([])
@@ -45,6 +49,7 @@ const DataTable = ({ columns, remoteData, options }) => {
     const { data } = await remoteData(reload? requestData: tableValues)
     setPagination(data)
     setData(data.data)
+    setLoading(false);
   }
 
  async function search(value) {
@@ -79,15 +84,28 @@ const DataTable = ({ columns, remoteData, options }) => {
 
   function orderByColumn() {}
 
+ async function changePageSize(value){
+    setLoading(true);
+    const newObj = { ...tableValues, pageSize: Number.parseInt(value) };
+    setValues(newObj);
+    const { data } = await remoteData(newObj);
+    setPagination(data);
+    setData(data.data);
+    setLoading(false);
+  }
+
   return (
-    <Conteiner>
+    <ThemeProvider theme={options?.theme}>
+      <Conteiner>
+        <TableTitle align={options.title.align}>{options.title?.label}</TableTitle>
       <TableToolBar 
       searchFunction={search}
       fetchData={fetch}
       />
       <Table>
-        <THead background={options?.headerBackground}>
+        <THead>
           <Tr header cursorPointer>
+            <Th><DtCheckbox header/></Th>
             {columns.map((column, index) => (
               <Th key={index}>
                 {column.name}
@@ -96,25 +114,38 @@ const DataTable = ({ columns, remoteData, options }) => {
             ))}
           </Tr>
         </THead>
-        <TBody primaryColor={options?.headerBackground}>
-          {data.map((item, index) => (
-            <Tr key={index} >
-              {Object.keys(item).map((cell, cellIndex) => (
-                <Td key={cellIndex}>
-                {
-                  formatColumnItem(columns.filter(s=> s.fieldId=== cell)[0],item[cell])
-                }</Td>
-              ))}
-            </Tr>
-          ))}
+        <TBody primaryColor={options?.headerBackground} hoverActive={!isLoading && data.length>0}>
+          {isLoading? (
+            <LoadingView loadingLabel="Cargando Datos.."/>
+          ): (
+            data.length===0 && !isLoading? (
+              <EmptyView label="No hay registros en esta tabla"/>
+            ): (
+              data.map((item, index) => (
+                <Tr key={index} >
+                  <Td><DtCheckbox/></Td>
+                  {Object.keys(item).map((cell, cellIndex) => (
+                    <Td key={cellIndex}>
+                    {
+                      formatColumnItem(columns.filter(s=> s.fieldId=== cell)[0],item[cell])
+                    }</Td>
+                  ))}
+                </Tr>
+              ))
+            )
+          )}
         </TBody>
         <tfoot>
           <TableFooter
-          totalPages={pagination.totalRecords}
+          totalRecords={pagination.totalRecords}
+          totalPages={pagination.totalPages}
+          currentPage={pagination.pageNumber}
+          changePageSize={changePageSize}
           />
         </tfoot>
       </Table>
     </Conteiner>
+    </ThemeProvider>
   )
 }
 

@@ -7,6 +7,11 @@ margin: 0 auto;
 width: 90%;
 `
 
+export const TableTitle= styled.h2`
+text-align: ${props=> props.align};
+font-family: ${props=> props.theme.fontFamily};
+`
+
 export const Table = styled.table`
   border-collapse: collapse;
   margin: 25px 0;
@@ -19,8 +24,8 @@ export const Table = styled.table`
 `
 
 export const THead= styled.thead`
- background-color: ${props=> props.background};
-  color: ${props=> props.background? "#ffffff": "black"};
+ background-color: ${props=> props.theme.primary};
+  color: ${props=> props.theme.primary? "#ffffff": "black"};
   text-align: left;
   font-weight: bold;
 `
@@ -43,12 +48,12 @@ export const TBody= styled.tbody`
 }
 
 &> tr:last-of-type{
-  border-bottom: 2px solid ${props=> props.primaryColor};
+  border-bottom: 2px solid ${props=> props.theme.primary};
 }
 
 &> tr:hover{
-  color: ${props=> props.primaryColor};
-  background-color: #f3f3f3;
+  color: ${props=> props.hoverActive? props.theme.primary: 'none'};
+  background-color: ${props=> props.hoverActive? '#f3f3f3': 'none'};
 }`
 
 export const Tr= styled.tr`

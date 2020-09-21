@@ -35,9 +35,16 @@ const App = () => {
   return (
     <div>
       <div style={{textAlign: 'center'}}>
-      <h2>Prueba de la tabla</h2>
       </div>
-      <DataTable columns={columns} options={{headerBackground: '#007ACC'}} remoteData={get_products}/>
+      <DataTable columns={columns} options={{
+        theme: {
+          primary: "#007ACC"
+        },
+        title: {
+          label: 'Productos',
+          align: 'center'
+        }
+      }} remoteData={get_products}/>
     </div>
   )
 }

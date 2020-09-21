@@ -14,15 +14,15 @@ const SelectInput= styled.select`
     width: 200px;
 
     &:focus{
-        border: 1px solid ${props=> props.focusColor};
+        border: 1px solid ${props=> props.theme.primary};
         outline: 0;
     }
 `
 
-const Select= ({items, placeholder,value, onChangeValue})=> {
+const Select= ({items, placeholder,value, onChangeValue, disabled})=> {
 
     return (
-        <SelectInput onChange={onChangeValue} value={value}>
+        <SelectInput onChange={onChangeValue} value={value} disabled={disabled}>
             <option value="" disabled selected hidden>{placeholder}</option>
             {items.map((item,index)=> (
 

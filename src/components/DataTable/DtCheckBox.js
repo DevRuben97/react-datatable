@@ -1,30 +1,15 @@
 /* eslint-disable prettier/prettier */
-import React, { forwardRef, useEffect, useRef } from 'react'
+import React, { forwardRef, Fragment, useEffect, useRef } from 'react'
 import styled from 'styled-components';
+import CheckBox from '../Checkbox';
 
-const Checkbox= styled.input.attrs({
-  type: 'checkbox'
-})`
-
-`
-
-const DtCheckBox = forwardRef(({ indeterminate, header, ...rest }, ref) => {
-  const defaultRef = useRef()
-  const resolvedRef = ref || defaultRef
-
-  useEffect(() => {
-    resolvedRef.current.indeterminate = indeterminate
-  }, [resolvedRef, indeterminate])
+const DtCheckBox= ({header})=>{
 
   return (
-    <>
-      {header ? (
-        <Checkbox ref={resolvedRef} {...rest} style={{ color: 'white' }} />
-      ) : (
-        <Checkbox ref={resolvedRef} {...rest} color='primary' />
-      )}
-    </>
+    <Fragment>
+        <CheckBox white={header}/>
+    </Fragment>
   )
-})
+}
 
-export default DtCheckBox
+export default DtCheckBox;

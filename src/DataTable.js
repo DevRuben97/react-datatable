@@ -8,7 +8,7 @@ import DtCheckbox from './components/DataTable/DtCheckBox';
 import LoadingView from './components/DataTable/LoadingView';
 import EmptyView from './components/DataTable/EmptyView';
 import { DataTableProps } from './PropTypes'
-import {AiOutlineArrowUp} from 'react-icons/ai';
+import {FaArrowUp, FaArrowDown} from 'react-icons/fa';
 import {formatColumnItem} from './utils/DataTypeFormater';
 
 
@@ -82,7 +82,20 @@ const DataTable = ({ columns, remoteData, options }) => {
     setData(data)
   }
 
-  function orderByColumn() {}
+  async function orderByColumn(column) {
+
+    const orderBy= {
+      by: column,
+      isDescending: !tableValues.orderBy.isDescending
+    }
+
+    const obj= {...tableValues,orderBy };
+    setValues(obj);
+
+    const {data}= await remoteData(obj);
+    setPagination(data);
+    setData(data.data);
+  }
 
  async function changePageSize(value){
     setLoading(true);
@@ -92,6 +105,20 @@ const DataTable = ({ columns, remoteData, options }) => {
     setPagination(data);
     setData(data.data);
     setLoading(false);
+  }
+
+
+  function renderSortColumn(column){
+
+    if (column.toLowerCase() !== tableValues.orderBy.by.toLowerCase()){
+      return null;
+    }
+    else if (tableValues.orderBy.isDescending){
+      return <FaArrowDown/>
+    }
+    else {
+      return <FaArrowUp />
+    }
   }
 
   return (
@@ -107,9 +134,9 @@ const DataTable = ({ columns, remoteData, options }) => {
           <Tr header cursorPointer>
             <Th><DtCheckbox header/></Th>
             {columns.map((column, index) => (
-              <Th key={index}>
+              <Th key={index} onClick={()=> orderByColumn(column.fieldId)}>
                 {column.name}
-                 <AiOutlineArrowUp/>
+                 <span>{renderSortColumn(column.fieldId)}</span>
               </Th>
             ))}
           </Tr>

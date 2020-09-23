@@ -44,7 +44,8 @@ const App = () => {
           label: 'Productos',
           align: 'center'
         }
-      }} remoteData={get_products}/>
+      }} 
+      remoteData={get_products}/>
     </div>
   )
 }

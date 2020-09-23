@@ -28,6 +28,10 @@ export const DataTableProps = {
         onClick: PropTypes.func
       }))
     }),
+    currency: PropTypes.shape({
+      currencyCode: PropTypes.string,
+      symbol: PropTypes.string
+    }),
     addButton: PropTypes.shape({
       label: PropTypes.string.isRequired,
       onClick: PropTypes.func,

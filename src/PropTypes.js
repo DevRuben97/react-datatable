@@ -20,9 +20,9 @@ export const DataTableProps = {
       icon: PropTypes.func
     }).isRequired,
     rowActions: PropTypes.shape({
-      type: PropTypes.oneOfType(['icon','select']),
+      type: PropTypes.oneOfType(['icon','menu']),
       actions: PropTypes.arrayOf(PropTypes.shape({
-        icon: PropTypes.func,
+        icon: PropTypes.string,
         show: PropTypes.bool,
         label: PropTypes.string,
         onClick: PropTypes.func

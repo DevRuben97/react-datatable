@@ -9,7 +9,7 @@ import LoadingView from './components/DataTable/LoadingView';
 import EmptyView from './components/DataTable/EmptyView';
 import { DataTableProps } from './PropTypes'
 import {FaArrowUp, FaArrowDown} from 'react-icons/fa';
-import {formatColumnItem} from './utils/DataTypeFormater';
+import {formatColumnItem, renderActionsColumn, renderColumnActions} from './utils/DataTypeFormater';
 
 
 
@@ -132,13 +132,14 @@ const DataTable = ({ columns, remoteData, options }) => {
       <Table>
         <THead>
           <Tr header cursorPointer>
-            <Th><DtCheckbox header/></Th>
+            <Th style={{width: '5%'}}><DtCheckbox header/></Th>
             {columns.map((column, index) => (
               <Th key={index} onClick={()=> orderByColumn(column.fieldId)}>
                 {column.name}
                  <span>{renderSortColumn(column.fieldId)}</span>
               </Th>
             ))}
+            {(options.rowActions) && renderColumnActions()}
           </Tr>
         </THead>
         <TBody primaryColor={options?.headerBackground} hoverActive={!isLoading && data.length>0}>
@@ -157,6 +158,7 @@ const DataTable = ({ columns, remoteData, options }) => {
                       formatColumnItem(columns.filter(s=> s.fieldId=== cell)[0],item[cell])
                     }</Td>
                   ))}
+                  {renderActionsColumn(options.rowActions,item)}
                 </Tr>
               ))
             )

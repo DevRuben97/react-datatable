@@ -43,6 +43,21 @@ const App = () => {
         title: {
           label: 'Productos',
           align: 'center'
+        },
+        rowActions: {
+          type: 'menu',
+          actions: [{
+            icon: 'edit',
+            show: true,
+            label: 'Editar Producto',
+            onClick: (item)=> alert('Editar Producto' + item.name)
+          },
+          {
+            icon: 'delete',
+            show: true,
+            label: 'Eliminar Producto',
+            onClick: (item)=> alert('Eliminar Producto'+ item.name)
+          }]
         }
       }} 
       remoteData={get_products}/>

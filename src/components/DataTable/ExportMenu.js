@@ -2,8 +2,6 @@
 import React, { useState } from 'react'
 import DropDown, { Container } from '../DropDownMenu'
 import { Button } from '../Button'
-import { FaFileDownload,FaFilePdf, FaFileCsv } from 'react-icons/fa'
-
 
 
 
@@ -13,12 +11,12 @@ const ExportMenu = (props) => {
     const items= [
     {
         label: 'PDF',
-        icon: ()=> <FaFilePdf/>,
+        icon: ()=> props.icons.ExportPdf(),
         onClick: ()=> alert('hola')
     },
     {
         label: 'CSV',
-        icon: ()=> <FaFileCsv/>,
+        icon: ()=> props.icons.ExportCsv(),
         onClick: ()=> alert('hola')
     },
 ]
@@ -26,7 +24,7 @@ const ExportMenu = (props) => {
   return (
     <Container>
       <Button backgroundColor='#007ACC' onClick={()=> setShowMenu(!showMenu)}>
-        <FaFileDownload />
+        {props.icons.Downloand()}
       </Button>
       <DropDown show={showMenu} items={items} onExit={()=> setShowMenu(!showMenu)}/>
     </Container>

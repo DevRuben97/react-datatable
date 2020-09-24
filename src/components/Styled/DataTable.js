@@ -43,19 +43,27 @@ export const TBody= styled.tbody`
   border-bottom: 1px solid #dddddd;
 }
 
-&> tr:nth-of-type(even){
+/* &> tr:nth-of-type(even){
   background-color: #f3f3f3;
-}
+} */
 
 &> tr:last-of-type{
   border-bottom: 2px solid ${props=> props.theme.primary};
 }
 
 &> tr:hover{
-  color: ${props=> props.hoverActive? props.theme.primary: 'none'};
   background-color: ${props=> props.hoverActive? '#f3f3f3': 'none'};
 }`
 
 export const Tr= styled.tr`
 cursor: ${props=> props.header && props.cursorPointer? 'pointer': 'default'};
+`
+
+
+export const ActionLink= styled.a`
+
+&:hover{
+  cursor: pointer;
+  color: ${props=> props.theme.primary}
+}
 `

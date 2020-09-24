@@ -51,6 +51,7 @@
     "dist"
   ],
   "dependencies": {
+    "moment": "^2.29.0",
     "numeral": "^2.0.6",
     "prop-types": "^15.7.2",
     "react-icons": "^3.11.0",

@@ -57,10 +57,10 @@ const Container = styled.label`
   }
 `
 
-const CheckBox = ({white}) => {
+const CheckBox = ({white,checked}) => {
   return (
     <Container white={white}>
-      <input type='checkbox' />
+      <input type='checkbox' checked={checked}/>
       <span className='checkmark' />
     </Container>
   )

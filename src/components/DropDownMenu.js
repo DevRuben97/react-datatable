@@ -29,7 +29,6 @@ const DropDownItem = styled.button`
   outline: 0;
   border: none;
   font-size: 14px;
-  text-transform: uppercase;
   cursor: pointer;
 
   &:hover {

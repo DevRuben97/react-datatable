@@ -1,5 +1,5 @@
 import React from 'react'
-import {DataTable} from 'react-datatable'
+import DataTable from 'react-datatable'
 import {get_products} from './Data/Apis';
 
 const columns= [{
@@ -26,8 +26,22 @@ const columns= [{
   dataType: 'boolean'
 },
 {
+  name: "Fecha de Creación",
+  fieldId: "createdDate",
+  dataType: "dateTime"
+},
+{
   name: "Estado",
-  fieldId: "state"
+  fieldId: "state",
+  dataType: "status",
+  labels: [{
+    label: 'Inactivo',
+    color: '#C2251F'
+  },
+  {
+    label: 'Activo',
+    color: '#25C21F'
+  }]
 }]
 
 
@@ -36,30 +50,7 @@ const App = () => {
     <div>
       <div style={{textAlign: 'center'}}>
       </div>
-      <DataTable columns={columns} options={{
-        theme: {
-          primary: "#007ACC"
-        },
-        title: {
-          label: 'Productos',
-          align: 'center'
-        },
-        rowActions: {
-          type: 'menu',
-          actions: [{
-            icon: 'edit',
-            show: true,
-            label: 'Editar Producto',
-            onClick: (item)=> alert('Editar Producto' + item.name)
-          },
-          {
-            icon: 'delete',
-            show: true,
-            label: 'Eliminar Producto',
-            onClick: (item)=> alert('Eliminar Producto'+ item.name)
-          }]
-        }
-      }} 
+      <DataTable columns={columns} 
       remoteData={get_products}/>
     </div>
   )

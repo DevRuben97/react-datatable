@@ -6,7 +6,11 @@ export const DataTableProps = {
     name: PropTypes.string.isRequired,
     fieldId: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
     filter: PropTypes.bool,
-    filterType: PropTypes.oneOfType(['textFiled', 'dateTimePiker', 'select'])
+    filterType: PropTypes.oneOfType(['textFiled', 'dateTimePiker', 'select']),
+    labels: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired
+    }))
   })),
   remoteData: PropTypes.func.isRequired,
   options: PropTypes.shape({
@@ -30,7 +34,12 @@ export const DataTableProps = {
     }),
     currency: PropTypes.shape({
       currencyCode: PropTypes.string,
-      symbol: PropTypes.string
+      symbol: PropTypes.string,
+      showCode: PropTypes.bool
+    }),
+    dateTime: PropTypes.shape({
+      format: PropTypes.string,
+      location: PropTypes.string
     }),
     addButton: PropTypes.shape({
       label: PropTypes.string.isRequired,

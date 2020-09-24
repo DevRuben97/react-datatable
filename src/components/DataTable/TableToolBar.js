@@ -4,8 +4,6 @@ import styled from 'styled-components'
 
 import TexBox from '../TextBox'
 import { Button, CircleButton } from '../Button'
-import {VertialSeparator} from '../Separator';
-import { FaSearch, FaSyncAlt, FaFilter,FaFileDownload ,FaPlus} from 'react-icons/fa'
 import ExportMenu from './ExportMenu';
 
 const Container = styled.div`
@@ -13,7 +11,7 @@ const Container = styled.div`
   justify-content: space-between;
 `
 
-const TableToolBar = ({ searchFunction, isLoading,fetchData}) => {
+const TableToolBar = ({ searchFunction, isLoading,fetchData, icons}) => {
   const [search, setSearch] = useState('')
 
   return (
@@ -34,20 +32,20 @@ const TableToolBar = ({ searchFunction, isLoading,fetchData}) => {
             onClick={() => searchFunction(search)}
             disabled={search === '' || isLoading}
           >
-            <FaSearch />
+            {icons.Search()}
           </CircleButton>
         </div>
       </div>
       <div>
-        <ExportMenu />
+        <ExportMenu icons={icons}/>
         <Button backgroundColor="#007ACC">
-          <FaFilter />
+          {icons.Filter()}
         </Button>
         <Button backgroundColor="#007ACC" onClick={()=> fetchData()}>
-          <FaSyncAlt />
+          {icons.Update()}
         </Button>
         <Button backgroundColor="#007ACC">
-          <FaPlus /> Agregar Nuevo
+          {icons.Add()} Agregar Nuevo
         </Button>
       </div>
     </Container>

@@ -7,13 +7,14 @@ import TableFooter from './components/DataTable/Footer';
 import DtCheckbox from './components/DataTable/DtCheckBox';
 import LoadingView from './components/DataTable/LoadingView';
 import EmptyView from './components/DataTable/EmptyView';
-import { DataTableProps } from './PropTypes'
-import {FaArrowUp, FaArrowDown} from 'react-icons/fa';
-import {formatColumnItem, renderActionsColumn, renderColumnActions} from './utils/DataTypeFormater';
+import DataTypeFormater from './utils/DataTypeFormater';
+
+const DataTable = ({ columns, remoteData, options,components }) => {
 
 
+  // Heleprs:
+  const typeFormater= new DataTypeFormater(components.icons,options);
 
-const DataTable = ({ columns, remoteData, options }) => {
 
   const requestData= {
     pageNumber: 1,
@@ -114,10 +115,10 @@ const DataTable = ({ columns, remoteData, options }) => {
       return null;
     }
     else if (tableValues.orderBy.isDescending){
-      return <FaArrowDown/>
+      return components.icons.DownArrow();
     }
     else {
-      return <FaArrowUp />
+      return components.icons.UpArrow();
     }
   }
 
@@ -128,6 +129,7 @@ const DataTable = ({ columns, remoteData, options }) => {
       <TableToolBar 
       searchFunction={search}
       fetchData={fetch}
+      icons={components.icons}
       />
       <Table>
         <THead>
@@ -139,7 +141,7 @@ const DataTable = ({ columns, remoteData, options }) => {
                  <span>{renderSortColumn(column.fieldId)}</span>
               </Th>
             ))}
-            {(options.rowActions) && renderColumnActions()}
+            {(options.rowActions) && typeFormater.renderColumnActions()}
           </Tr>
         </THead>
         <TBody primaryColor={options?.headerBackground} hoverActive={!isLoading && data.length>0}>
@@ -155,10 +157,10 @@ const DataTable = ({ columns, remoteData, options }) => {
                   {Object.keys(item).map((cell, cellIndex) => (
                     <Td key={cellIndex}>
                     {
-                      formatColumnItem(columns.filter(s=> s.fieldId=== cell)[0],item[cell])
+                      typeFormater.formatColumnItem(columns.filter(s=> s.fieldId=== cell)[0],item[cell])
                     }</Td>
                   ))}
-                  {renderActionsColumn(options.rowActions,item)}
+                  {typeFormater.renderActionsColumn(item)}
                 </Tr>
               ))
             )
@@ -170,6 +172,7 @@ const DataTable = ({ columns, remoteData, options }) => {
           totalPages={pagination.totalPages}
           currentPage={pagination.pageNumber}
           changePageSize={changePageSize}
+          icons={components.icons}
           />
         </tfoot>
       </Table>
@@ -177,7 +180,5 @@ const DataTable = ({ columns, remoteData, options }) => {
     </ThemeProvider>
   )
 }
-
-DataTable.propTypes = DataTableProps
 
 export default DataTable

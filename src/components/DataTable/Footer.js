@@ -29,7 +29,8 @@ const TableFooter = ({
   currentPage,
   PreviousPage,
   paginate,
-  changePageSize
+  changePageSize,
+  icons
 }) => {
   const pages = [
     {
@@ -60,7 +61,7 @@ const TableFooter = ({
           {/* Indicador de paginas totales */}
           <p>Hay un total de {totalRecords} registros</p>
           {/* Paginador */}
-          <Paginator pages={totalPages} currentPage={currentPage}/>
+          <Paginator pages={totalPages} currentPage={currentPage} icons={icons}/>
         </PaginatorContainer>
       </Td>
     </Tr>

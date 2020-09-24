@@ -1,7 +1,7 @@
-function ToPdf(){
+function ToPdf(columns, rows){
 
 }
 
-function ToCsv(){
+function ToCsv(columns,rows){
     
 }

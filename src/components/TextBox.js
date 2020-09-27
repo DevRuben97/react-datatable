@@ -51,7 +51,6 @@ const Button = ({ label, placeholder, value, onChangeValue, focusColor, onClearV
         focusColor={focusColor}
         onKeyUp={enter}
       />
-      <ClearButton onClick={onClearValue}><VscClose/></ClearButton>
     </Fragment>
   )
 }

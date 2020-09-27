@@ -8,6 +8,8 @@ import DtCheckbox from './components/DataTable/DtCheckBox';
 import LoadingView from './components/DataTable/LoadingView';
 import EmptyView from './components/DataTable/EmptyView';
 import DataTypeFormater from './utils/DataTypeFormater';
+import {Collapse} from 'react-collapse';
+import RowFilters from './components/DataTable/RowFilters';
 
 const DataTable = ({ columns, remoteData, options,components }) => {
 
@@ -28,7 +30,6 @@ const DataTable = ({ columns, remoteData, options,components }) => {
   }
 
   const [tableValues, setValues] = useState(requestData);
-
   const [pagination, setPagination] = useState({
     pageNumber: 1,
     pageSize: 0,
@@ -38,8 +39,10 @@ const DataTable = ({ columns, remoteData, options,components }) => {
     totalRecords: 0
   })
   const [data, setData] = useState([])
-  const [isFiltering, setIsFiltering] = useState(false)
-  const [isLoading, setLoading] = useState(false)
+  const [isFiltering, setIsFiltering] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [selectedRows, setSelectedRows]= useState([]);
+  const [showFilters, setShowFilters]= useState(true);
 
   useEffect(() => {
     remoteData &&  fetch()
@@ -115,10 +118,10 @@ const DataTable = ({ columns, remoteData, options,components }) => {
       return null;
     }
     else if (tableValues.orderBy.isDescending){
-      return components.icons.DownArrow();
+      return <components.icons.DownArrow/>;
     }
     else {
-      return components.icons.UpArrow();
+      return <components.icons.UpArrow/>
     }
   }
 
@@ -127,14 +130,20 @@ const DataTable = ({ columns, remoteData, options,components }) => {
       <Conteiner>
         <TableTitle align={options.title.align}>{options.title?.label}</TableTitle>
       <TableToolBar 
-      searchFunction={search}
-      fetchData={fetch}
-      icons={components.icons}
+        searchFunction={search}
+        fetchData={fetch}
+        icons={components.icons}
+        selectedRows={selectedRows}
+        showFilters={showFilters}
+        setShowFilters={setShowFilters}
       />
+      <Collapse isOpened={showFilters}>
+          <RowFilters columns={columns} />
+      </Collapse>
       <Table>
         <THead>
           <Tr header cursorPointer>
-            <Th style={{width: '5%'}}><DtCheckbox header/></Th>
+            <Th style={{width: '5%'}}><DtCheckbox header selectedItems={selectedRows} setSelectedItems={setSelectedRows} data={data}/></Th>
             {columns.map((column, index) => (
               <Th key={index} onClick={()=> orderByColumn(column.fieldId)}>
                 {column.name}
@@ -153,7 +162,7 @@ const DataTable = ({ columns, remoteData, options,components }) => {
             ): (
               data.map((item, index) => (
                 <Tr key={index} >
-                  <Td><DtCheckbox/></Td>
+                  <Td><DtCheckbox row={item} selectedItems={selectedRows} setSelectedItems={setSelectedRows}/></Td>
                   {Object.keys(item).map((cell, cellIndex) => (
                     <Td key={cellIndex}>
                     {

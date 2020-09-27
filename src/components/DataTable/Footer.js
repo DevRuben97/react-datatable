@@ -52,12 +52,14 @@ const TableFooter = ({
       <Td colSpan={12}>
         <PaginatorContainer>
           {/* Selector de paginas */}
+          <div style={{width: '200px'}}>
           <Select
             items={pages}
             placeholder='# Registros por pagina'
             onChangeValue={(event) => changePageSize(event.target.value)}
             disabled={totalRecords === 0}
           />
+          </div>
           {/* Indicador de paginas totales */}
           <p>Hay un total de {totalRecords} registros</p>
           {/* Paginador */}

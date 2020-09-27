@@ -5,26 +5,26 @@ import { Button } from '../Button'
 
 
 
-const ExportMenu = (props) => {
+const ExportMenu = ({selectedRows, icons}) => {
 
     const [showMenu, setShowMenu]= useState(false);
     const items= [
     {
         label: 'PDF',
-        icon: ()=> props.icons.ExportPdf(),
+        icon: ()=> <icons.ExportPdf/>,
         onClick: ()=> alert('hola')
     },
     {
         label: 'CSV',
-        icon: ()=> props.icons.ExportCsv(),
+        icon: ()=> <icons.ExportCsv/>,
         onClick: ()=> alert('hola')
     },
 ]
 
   return (
     <Container>
-      <Button backgroundColor='#007ACC' onClick={()=> setShowMenu(!showMenu)}>
-        {props.icons.Downloand()}
+      <Button backgroundColor='#007ACC' onClick={()=> setShowMenu(!showMenu)} disabled={selectedRows.length===0}>
+        <icons.Downloand/>
       </Button>
       <DropDown show={showMenu} items={items} onExit={()=> setShowMenu(!showMenu)}/>
     </Container>

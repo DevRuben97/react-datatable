@@ -4,14 +4,22 @@ import styled from 'styled-components'
 
 import TexBox from '../TextBox'
 import { Button, CircleButton } from '../Button'
-import ExportMenu from './ExportMenu';
+import ExportMenu from './ExportMenu'
 
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
 `
 
-const TableToolBar = ({ searchFunction, isLoading,fetchData, icons}) => {
+const TableToolBar = ({
+  searchFunction,
+  isLoading,
+  fetchData,
+  selectedRows,
+  icons,
+  showFilters,
+  setShowFilters
+}) => {
   const [search, setSearch] = useState('')
 
   return (
@@ -23,7 +31,7 @@ const TableToolBar = ({ searchFunction, isLoading,fetchData, icons}) => {
           onChangeValue={(event) => setSearch(event.target.value)}
           value={search}
           onClearValue={() => setSearch('')}
-          onEnter={()=> searchFunction(search)}
+          onEnter={() => searchFunction(search)}
         />
 
         <div style={{ paddingLeft: '10px' }}>
@@ -32,20 +40,23 @@ const TableToolBar = ({ searchFunction, isLoading,fetchData, icons}) => {
             onClick={() => searchFunction(search)}
             disabled={search === '' || isLoading}
           >
-            {icons.Search()}
+            <icons.Search />
           </CircleButton>
         </div>
       </div>
       <div>
-        <ExportMenu icons={icons}/>
-        <Button backgroundColor="#007ACC">
-          {icons.Filter()}
+        <ExportMenu icons={icons} selectedRows={selectedRows} />
+        <Button
+          backgroundColor='#007ACC'
+          onClick={() => setShowFilters(!showFilters)}
+        >
+          <icons.Filter />
         </Button>
-        <Button backgroundColor="#007ACC" onClick={()=> fetchData()}>
-          {icons.Update()}
+        <Button backgroundColor='#007ACC' onClick={() => fetchData()}>
+          <icons.Update />
         </Button>
-        <Button backgroundColor="#007ACC">
-          {icons.Add()} Agregar Nuevo
+        <Button backgroundColor='#007ACC'>
+          <icons.Add /> Agregar Nuevo
         </Button>
       </div>
     </Container>

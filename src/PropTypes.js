@@ -6,7 +6,7 @@ export const DataTableProps = {
     name: PropTypes.string.isRequired,
     fieldId: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
     filter: PropTypes.bool,
-    filterType: PropTypes.oneOfType(['textFiled', 'dateTimePiker', 'select']),
+    filterType: PropTypes.oneOfType(['textFiled', 'date', 'select']),
     labels: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
       color: PropTypes.string.isRequired

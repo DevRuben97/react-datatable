@@ -11,7 +11,7 @@ const SelectInput= styled.select`
     border-radius: 4px;
     box-shadow: none;
     box-sizing: border-box;
-    width: 200px;
+    width: 100%;
 
     &:focus{
         border: 1px solid ${props=> props.theme.primary};

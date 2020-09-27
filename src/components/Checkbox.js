@@ -22,19 +22,20 @@ const Container = styled.label`
     width: 0;
   }
   .checkmark {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 25px;
-      width: 25px;
-      background-color: #eee;
-    }
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+  }
 
-    &:hover input ~ .checkmark {
-      background-color: #ccc;
-    }
+  &:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
   & > input:checked ~ .checkmark {
-    background-color: ${props=> props.white? 'white': props.theme.primary};
+    background-color: ${(props) =>
+      props.white ? 'white' : props.theme.primary};
   }
   .checkmark:after {
     content: '';
@@ -49,7 +50,7 @@ const Container = styled.label`
     top: 5px;
     width: 5px;
     height: 10px;
-    border: solid ${props=> props.white? 'black': 'white'};
+    border: solid ${(props) => (props.white ? 'black' : 'white')};
     border-width: 0 3px 3px 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
@@ -57,10 +58,15 @@ const Container = styled.label`
   }
 `
 
-const CheckBox = ({white,checked}) => {
+const CheckBox = ({ white, checked, onChekedChange,name }) => {
   return (
     <Container white={white}>
-      <input type='checkbox' checked={checked}/>
+      <input
+        type='checkbox'
+        checked={checked}
+        onChange={(event) => onChekedChange && onChekedChange(event.target.checked)}
+        name={name} 
+      />
       <span className='checkmark' />
     </Container>
   )

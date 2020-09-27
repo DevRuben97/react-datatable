@@ -5,7 +5,7 @@ export const Button = styled.button`
   display: inline-block;
   height: 38px;
   padding: 0 30px;
-  color: #fff;
+  color: ${props=> props.outlined? props.theme.primary: "#fff"};
   text-align: center;
   font-size: 16px;
   font-weight: 600;
@@ -14,19 +14,24 @@ export const Button = styled.button`
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
-  background-color: ${props=> props.theme.primary};
+  background-color: ${props=> props.outlined? "#FFF": props.theme.primary};
   border-radius: 4px;
-  border: 1px solid ${props=> props.background};
+  border: 1px solid ${props=> props.theme.primary};
   cursor: pointer;
   box-sizing: border-box;
   outline: 0;
   margin-top: 5px;
   margin-left: 5px;
+  transition: all 1s;
 
   &:hover {
-    color: #fff;
-    border-color: #1eaedb;
-    transition: 1s;
+    border-color: ${props=> props.theme.primary};
+  }
+
+  &:disabled{
+    background-color: #E0E0E0;
+    cursor: not-allowed;
+    border: none;
   }
 `
 

@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React,{useState} from 'react';
 import styled from 'styled-components';
-import TextBox from '../TextBox';
-import Select from '../Select';
-import {Button} from '../Button'
+import TextBox from '../../TextBox';
+import Select from '../../Select';
+import {Button} from '../../Button'
 
 const Container= styled.div`
  display: ${(props) => (props.show ? 'block' : 'none')};
@@ -42,7 +42,14 @@ const FilterCtiteria= [
 }]
 
 
-const Filter= ({item,rows, showFilter})=> {
+const Filter= ({item,rows, showFilter, onChangeFilterValue})=> {
+
+
+
+    const [criteria, setCriteria]= useState({
+        label: "Igual Que",
+        value: "=="
+    })
 
     function renderFilter(){
 
@@ -53,7 +60,8 @@ const Filter= ({item,rows, showFilter})=> {
                 filterItem= (
                     <div style={{margin: 5}}>
                         <TextBox 
-                    placeholder={`filtrar por ${item.name}`}
+                         placeholder={`filtrar por ${item.name}`}
+                         onChangeValue={(event)=> onChangeFilterValue(event.target.value,criteria)}
                     />
                     </div>
                 )
@@ -78,6 +86,7 @@ const Filter= ({item,rows, showFilter})=> {
                     <Select 
                     placeholder={`Filtrar por ${item.name}`}
                     items={selectItems}
+                    onChangeValue={(event)=> onChangeFilterValue(event.target.value,criteria)}
                     />
                 )
 
@@ -94,6 +103,8 @@ const Filter= ({item,rows, showFilter})=> {
             <Select 
             placeholder="Criterio"
             items={FilterCtiteria}
+            onChangeValue={(event)=> setCriteria(event.target.value)}
+            value={criteria}
             />
             {renderFilter()}
 

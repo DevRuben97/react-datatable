@@ -9,7 +9,7 @@ import LoadingView from './components/DataTable/LoadingView';
 import EmptyView from './components/DataTable/EmptyView';
 import DataTypeFormater from './utils/DataTypeFormater';
 import {Collapse} from 'react-collapse';
-import RowFilters from './components/DataTable/RowFilters';
+import RowFilters from './components/DataTable/Filters/RowFilters';
 
 const DataTable = ({ columns, remoteData, options,components }) => {
 
@@ -42,7 +42,7 @@ const DataTable = ({ columns, remoteData, options,components }) => {
   const [isFiltering, setIsFiltering] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [selectedRows, setSelectedRows]= useState([]);
-  const [showFilters, setShowFilters]= useState(true);
+  const [showFilters, setShowFilters]= useState(false);
 
   useEffect(() => {
     remoteData &&  fetch()

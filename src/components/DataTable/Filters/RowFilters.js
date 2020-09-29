@@ -1,9 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Button } from '../Button'
-import Filter from './Filter'
-import { Container } from '../DropDownMenu';
+import { Button } from '../../Button'
+import FilterInput from '../Filters/FilterInput';
 
 const FilterContainer = styled.div`
   display: flex;
@@ -28,23 +27,37 @@ const RowFilters = ({ columns, filter, data }) => {
     value: ''
   }
 
-  const [currentFilters, setCurrentFilters] = useState([])
+  const [currentFilters, setCurrentFilters] = useState([]);
 
-  function renderButtonFilter(column) {
-    return (
-      column.filterType && (
-        <Container>
-          <Button >{column.name}</Button>
-          <Filter item={column} rows={data} />
-        </Container>
-      )
-    )
+
+  function changeFilter(value,column,criteria){
+    const currentArray= [...currentFilters];
+
+    const currentColumn= currentArray.filter(s=> s.fieldName=== column)[0];
+
+    if (!currentColumn){
+      currentArray.push({
+        fieldName: column,
+        operator: criteria,
+        function: null,
+        value: value
+      });
+
+      setCurrentFilters(currentArray);
+    }
+    else {
+     const index=  currentArray.findIndex(currentColumn);
+
+    }
+
   }
 
   return (
     <div>
       <FilterContainer>
-        {columns.map((item) => renderButtonFilter(item))}
+        {columns.map((item,index)=> (
+          <FilterInput key={index} column={item} data={data} changeFilter={changeFilter}/>
+        ))}
       </FilterContainer>
       <ButtonContainer>
             <Button outlined>Limpiar</Button>

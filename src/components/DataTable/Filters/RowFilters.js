@@ -19,37 +19,30 @@ flex-direction: row;
 justify-content: flex-end;
 `;
 
-const RowFilters = ({ columns, filter, data }) => {
-  const obj = {
-    fieldName: '',
-    operator: '',
-    function: '',
-    value: ''
-  }
-
+const RowFilters = ({ columns, fetchFilter, data }) => {
+  
   const [currentFilters, setCurrentFilters] = useState([]);
 
 
-  function changeFilter(value,column,criteria){
-    const currentArray= [...currentFilters];
+  function changeFilter(obj){
+    debugger
+    const array= [...currentFilters];
 
-    const currentColumn= currentArray.filter(s=> s.fieldName=== column)[0];
+    array.push(obj);
 
-    if (!currentColumn){
-      currentArray.push({
-        fieldName: column,
-        operator: criteria,
-        function: null,
-        value: value
-      });
+    setCurrentFilters(array);
 
-      setCurrentFilters(currentArray);
-    }
-    else {
-     const index=  currentArray.findIndex(currentColumn);
+  }
 
-    }
 
+  function applyFilters(){
+
+    fetchFilter(currentFilters);
+  }
+
+  function clear(){
+    setCurrentFilters([]);
+    fetchFilter([]);
   }
 
   return (
@@ -60,8 +53,8 @@ const RowFilters = ({ columns, filter, data }) => {
         ))}
       </FilterContainer>
       <ButtonContainer>
-            <Button outlined>Limpiar</Button>
-            <Button outlined style={{borderColor: 'red',color: 'red'}}>Cancelar</Button>
+            <Button outlined onClick={clear}>Limpiar</Button>
+            <Button outlined onClick={applyFilters}>Aplicar</Button>
       </ButtonContainer>
     </div>
   )

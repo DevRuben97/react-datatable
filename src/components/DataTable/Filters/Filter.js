@@ -42,14 +42,14 @@ const FilterCtiteria= [
 }]
 
 
-const Filter= ({item,rows, showFilter, onChangeFilterValue})=> {
+const Filter= ({item,rows, showFilter, onChangeCriteria, onChangeValue,actualValue,criteria, onApplyFilter, onClearFilter})=> {
 
 
+    function changeCriteria(value){
+        const valueCriteria= FilterCtiteria.filter(s=> s.value=== value)[0];
 
-    const [criteria, setCriteria]= useState({
-        label: "Igual Que",
-        value: "=="
-    })
+        onChangeCriteria(valueCriteria);
+    }
 
     function renderFilter(){
 
@@ -61,7 +61,8 @@ const Filter= ({item,rows, showFilter, onChangeFilterValue})=> {
                     <div style={{margin: 5}}>
                         <TextBox 
                          placeholder={`filtrar por ${item.name}`}
-                         onChangeValue={(event)=> onChangeFilterValue(event.target.value,criteria)}
+                         onChangeValue={(event)=> onChangeValue(event.target.value)}
+                         value={actualValue}
                     />
                     </div>
                 )
@@ -86,7 +87,8 @@ const Filter= ({item,rows, showFilter, onChangeFilterValue})=> {
                     <Select 
                     placeholder={`Filtrar por ${item.name}`}
                     items={selectItems}
-                    onChangeValue={(event)=> onChangeFilterValue(event.target.value,criteria)}
+                    onChangeValue={(event)=> onChangeValue(event.target.value)}
+                    value={actualValue}
                     />
                 )
 
@@ -103,14 +105,14 @@ const Filter= ({item,rows, showFilter, onChangeFilterValue})=> {
             <Select 
             placeholder="Criterio"
             items={FilterCtiteria}
-            onChangeValue={(event)=> setCriteria(event.target.value)}
+            onChangeValue={(event)=> changeCriteria(event.target.value)}
             value={criteria}
             />
             {renderFilter()}
 
             <ButtonConteiner>
-                <Button outlined>Limpiar</Button>
-                <Button>Aplicar</Button>
+                <Button outlined onClick={onClearFilter}>Limpiar</Button>
+                <Button onClick={onApplyFilter}>Aceptar</Button>
             </ButtonConteiner>
         </Container>
     )

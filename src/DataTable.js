@@ -26,7 +26,7 @@ const DataTable = ({ columns, remoteData, options,components }) => {
       by: 'id',
       isDescending: false
     },
-    filters: {}
+    filters: []
   }
 
   const [tableValues, setValues] = useState(requestData);
@@ -138,7 +138,7 @@ const DataTable = ({ columns, remoteData, options,components }) => {
         setShowFilters={setShowFilters}
       />
       <Collapse isOpened={showFilters}>
-          <RowFilters columns={columns} />
+          <RowFilters columns={columns} fetchFilter={filter} />
       </Collapse>
       <Table>
         <THead>

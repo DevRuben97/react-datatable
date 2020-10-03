@@ -1,24 +1,30 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react'
-import {ThemeProvider} from 'styled-components';
-import { Conteiner,TableTitle,Table, THead, TBody, Th, Td, Tr } from './components/Styled/DataTable'
-import TableToolBar from './components/DataTable/TableToolBar';
-import TableFooter from './components/DataTable/Footer';
-import DtCheckbox from './components/DataTable/DtCheckBox';
-import LoadingView from './components/DataTable/LoadingView';
-import EmptyView from './components/DataTable/EmptyView';
-import DataTypeFormater from './utils/DataTypeFormater';
-import {Collapse} from 'react-collapse';
-import RowFilters from './components/DataTable/Filters/RowFilters';
+import { ThemeProvider } from 'styled-components'
+import {
+  Conteiner,
+  TableTitle,
+  Table,
+  THead,
+  TBody,
+  Th,
+  Td,
+  Tr
+} from './components/Styled/DataTable'
+import TableToolBar from './components/DataTable/TableToolBar'
+import TableFooter from './components/DataTable/Footer'
+import DtCheckbox from './components/DataTable/DtCheckBox'
+import LoadingView from './components/DataTable/LoadingView'
+import EmptyView from './components/DataTable/EmptyView'
+import DataTypeFormater from './utils/DataTypeFormater'
+import { Collapse } from 'react-collapse'
+import RowFilters from './components/DataTable/Filters/RowFilters'
 
-const DataTable = ({ columns, remoteData, options,components }) => {
-
-
+const DataTable = ({ columns, remoteData, options, components }) => {
   // Heleprs:
-  const typeFormater= new DataTypeFormater(components.icons,options);
+  const typeFormater = new DataTypeFormater(components.icons, options)
 
-
-  const requestData= {
+  const requestData = {
     pageNumber: 1,
     pageSize: 10,
     search: '',
@@ -29,7 +35,7 @@ const DataTable = ({ columns, remoteData, options,components }) => {
     filters: []
   }
 
-  const [tableValues, setValues] = useState(requestData);
+  const [tableValues, setValues] = useState(requestData)
   const [pagination, setPagination] = useState({
     pageNumber: 1,
     pageSize: 0,
@@ -39,42 +45,43 @@ const DataTable = ({ columns, remoteData, options,components }) => {
     totalRecords: 0
   })
   const [data, setData] = useState([])
-  const [isFiltering, setIsFiltering] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-  const [selectedRows, setSelectedRows]= useState([]);
-  const [showFilters, setShowFilters]= useState(false);
+  const [isFiltering, setIsFiltering] = useState(false)
+  const [isLoading, setLoading] = useState(false)
+  const [selectedRows, setSelectedRows] = useState([])
+  const [showFilters, setShowFilters] = useState(false)
 
   useEffect(() => {
-    remoteData &&  fetch()
+    remoteData && fetch()
   }, [])
 
   async function fetch(reload) {
     setLoading(true)
-    const { data } = await remoteData(reload? requestData: tableValues)
+    const { data } = await remoteData(reload ? requestData : tableValues)
     setPagination(data)
     setData(data.data)
-    setLoading(false);
+    setLoading(false)
   }
 
- async function search(value) {
-    setLoading(true);
-    const newObj= {...tableValues, search: value};
-    setValues(newObj);
-
-    const { data } = await remoteData(newObj)
-    setPagination(data)
-    setData(data.data)
-    setLoading(false);
-
-  }
-
-  async function filter(obj) {
-    const newObj = { ...tableValues, pageNumber: 1, filters: obj }
+  async function search(value) {
+    setLoading(true)
+    const newObj = { ...tableValues, search: value }
     setValues(newObj)
 
     const { data } = await remoteData(newObj)
     setPagination(data)
     setData(data.data)
+    setLoading(false)
+  }
+
+  async function filter(array) {
+    const newObj = { ...tableValues, pageNumber: 1, filters: array }
+    setValues(newObj)
+    setIsFiltering(array.length>0);
+    setLoading(true);
+    const { data } = await remoteData(newObj)
+    setPagination(data)
+    setData(data.data)
+    setLoading(false);
   }
 
   async function paginate(page) {
@@ -87,105 +94,122 @@ const DataTable = ({ columns, remoteData, options,components }) => {
   }
 
   async function orderByColumn(column) {
-
-    const orderBy= {
+    const orderBy = {
       by: column,
       isDescending: !tableValues.orderBy.isDescending
     }
 
-    const obj= {...tableValues,orderBy };
-    setValues(obj);
+    const obj = { ...tableValues, orderBy }
+    setValues(obj)
 
-    const {data}= await remoteData(obj);
-    setPagination(data);
-    setData(data.data);
+    const { data } = await remoteData(obj)
+    setPagination(data)
+    setData(data.data)
   }
 
- async function changePageSize(value){
-    setLoading(true);
-    const newObj = { ...tableValues, pageSize: Number.parseInt(value) };
-    setValues(newObj);
-    const { data } = await remoteData(newObj);
-    setPagination(data);
-    setData(data.data);
-    setLoading(false);
+  async function changePageSize(value) {
+    setLoading(true)
+    const newObj = { ...tableValues, pageSize: Number.parseInt(value) }
+    setValues(newObj)
+    const { data } = await remoteData(newObj)
+    setPagination(data)
+    setData(data.data)
+    setLoading(false)
   }
 
-
-  function renderSortColumn(column){
-
-    if (column.toLowerCase() !== tableValues.orderBy.by.toLowerCase()){
-      return null;
-    }
-    else if (tableValues.orderBy.isDescending){
-      return <components.icons.DownArrow/>;
-    }
-    else {
-      return <components.icons.UpArrow/>
+  function renderSortColumn(column) {
+    if (column.toLowerCase() !== tableValues.orderBy.by.toLowerCase()) {
+      return null
+    } else if (tableValues.orderBy.isDescending) {
+      return <components.icons.DownArrow />
+    } else {
+      return <components.icons.UpArrow />
     }
   }
 
   return (
     <ThemeProvider theme={options?.theme}>
       <Conteiner>
-        <TableTitle align={options.title.align}>{options.title?.label}</TableTitle>
-      <TableToolBar 
-        searchFunction={search}
-        fetchData={fetch}
-        icons={components.icons}
-        selectedRows={selectedRows}
-        showFilters={showFilters}
-        setShowFilters={setShowFilters}
-      />
-      <Collapse isOpened={showFilters}>
-          <RowFilters columns={columns} fetchFilter={filter} />
-      </Collapse>
-      <Table>
-        <THead>
-          <Tr header cursorPointer>
-            <Th style={{width: '5%'}}><DtCheckbox header selectedItems={selectedRows} setSelectedItems={setSelectedRows} data={data}/></Th>
-            {columns.map((column, index) => (
-              <Th key={index} onClick={()=> orderByColumn(column.fieldId)}>
-                {column.name}
-                 <span>{renderSortColumn(column.fieldId)}</span>
+        <TableTitle align={options.title.align}>
+          {options.title?.label}
+        </TableTitle>
+        <TableToolBar
+          searchFunction={search}
+          fetchData={fetch}
+          icons={components.icons}
+          selectedRows={selectedRows}
+          showFilters={showFilters}
+          setShowFilters={setShowFilters}
+        />
+        <Collapse isOpened={showFilters}>
+          <RowFilters
+            columns={columns}
+            fetchFilter={filter}
+            setIsFiltering={setIsFiltering}
+          />
+        </Collapse>
+        <Table>
+          <THead>
+            <Tr header cursorPointer>
+              <Th style={{ width: '5%' }}>
+                <DtCheckbox
+                  header
+                  selectedItems={selectedRows}
+                  setSelectedItems={setSelectedRows}
+                  data={data}
+                />
               </Th>
-            ))}
-            {(options.rowActions) && typeFormater.renderColumnActions()}
-          </Tr>
-        </THead>
-        <TBody primaryColor={options?.headerBackground} hoverActive={!isLoading && data.length>0}>
-          {isLoading? (
-            <LoadingView loadingLabel="Cargando Datos.."/>
-          ): (
-            data.length===0 && !isLoading? (
-              <EmptyView label="No hay registros en esta tabla"/>
-            ): (
+              {columns.map((column, index) => (
+                <Th key={index} onClick={() => orderByColumn(column.fieldId)}>
+                  {column.name}
+                  <span>{renderSortColumn(column.fieldId)}</span>
+                </Th>
+              ))}
+              {options.rowActions && typeFormater.renderColumnActions()}
+            </Tr>
+          </THead>
+          <TBody
+            primaryColor={options?.headerBackground}
+            hoverActive={!isLoading && data.length > 0}
+          >
+            {isLoading ? (
+              <LoadingView loadingLabel={options.text.loading} />
+            ) : data.length === 0 && !isLoading ? (
+              <EmptyView label={!isFiltering? options.text.dataEmptyText: options.text.dataEmptyFilterText} />
+            ) : (
               data.map((item, index) => (
-                <Tr key={index} >
-                  <Td><DtCheckbox row={item} selectedItems={selectedRows} setSelectedItems={setSelectedRows}/></Td>
+                <Tr key={index}>
+                  <Td>
+                    <DtCheckbox
+                      row={item}
+                      selectedItems={selectedRows}
+                      setSelectedItems={setSelectedRows}
+                    />
+                  </Td>
                   {Object.keys(item).map((cell, cellIndex) => (
                     <Td key={cellIndex}>
-                    {
-                      typeFormater.formatColumnItem(columns.filter(s=> s.fieldId=== cell)[0],item[cell])
-                    }</Td>
+                      {typeFormater.formatColumnItem(
+                        columns.filter((s) => s.fieldId === cell)[0],
+                        item[cell]
+                      )}
+                    </Td>
                   ))}
                   {typeFormater.renderActionsColumn(item)}
                 </Tr>
               ))
-            )
-          )}
-        </TBody>
-        <tfoot>
-          <TableFooter
-          totalRecords={pagination.totalRecords}
-          totalPages={pagination.totalPages}
-          currentPage={pagination.pageNumber}
-          changePageSize={changePageSize}
-          icons={components.icons}
-          />
-        </tfoot>
-      </Table>
-    </Conteiner>
+            )}
+          </TBody>
+          <tfoot>
+            <TableFooter
+              totalRecords={pagination.totalRecords}
+              totalPages={pagination.totalPages}
+              currentPage={pagination.pageNumber}
+              changePageSize={changePageSize}
+              icons={components.icons}
+            />
+          </tfoot>
+        </Table>
+      </Conteiner>
     </ThemeProvider>
   )
 }

@@ -19,13 +19,13 @@ flex-direction: row;
 justify-content: flex-end;
 `;
 
-const RowFilters = ({ columns, fetchFilter, data }) => {
+const RowFilters = ({ columns, fetchFilter }) => {
   
   const [currentFilters, setCurrentFilters] = useState([]);
+  const [clearInptus, setClearInptus]= useState(false);
 
 
   function changeFilter(obj){
-    debugger
     const array= [...currentFilters];
 
     array.push(obj);
@@ -43,13 +43,14 @@ const RowFilters = ({ columns, fetchFilter, data }) => {
   function clear(){
     setCurrentFilters([]);
     fetchFilter([]);
+    setClearInptus(true);
   }
 
   return (
     <div>
       <FilterContainer>
         {columns.map((item,index)=> (
-          <FilterInput key={index} column={item} data={data} changeFilter={changeFilter}/>
+          <FilterInput key={index} column={item} changeFilter={changeFilter} clearInputs={clearInptus} setClearInput={setClearInptus}/>
         ))}
       </FilterContainer>
       <ButtonContainer>

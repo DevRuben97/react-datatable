@@ -10,6 +10,7 @@ const columns = [
   {
     name: 'Nombre',
     fieldId: 'name',
+    filter: true,
     filterType: "textField"
   },
   {
@@ -36,6 +37,15 @@ const columns = [
     name: 'Estado',
     fieldId: 'state',
     dataType: 'status',
+    filter: true,
+    filterType: "select",
+    filterData: [{
+      label: 'Activo',
+      value: 1
+    },{
+      label: 'Inactivo',
+      value: 2
+    }],
     labels: [
       {
         label: 'Inactivo',

@@ -1,12 +1,12 @@
 /* eslint-disable prettier/prettier */
-import React,{useState} from 'react';
-import styled from 'styled-components';
-import TextBox from '../../TextBox';
-import Select from '../../Select';
-import {Button} from '../../Button'
+import React from 'react'
+import styled from 'styled-components'
+import TextBox from '../../TextBox'
+import Select from '../../Select'
+import { Button } from '../../Button'
 
-const Container= styled.div`
- display: ${(props) => (props.show ? 'block' : 'none')};
+const Container = styled.div`
+  display: ${(props) => (props.show ? 'block' : 'none')};
   position: absolute;
   background-color: white;
   min-width: 120px;
@@ -17,106 +17,102 @@ const Container= styled.div`
   /* right: 0; */
 `
 
-const ButtonConteiner= styled.div`
-display: flex;
-justify-content: space-between;
+const ButtonConteiner = styled.div`
+  display: flex;
+  justify-content: space-between;
 `
 
-const FilterCtiteria= [
-{
-    label: "Igual Que",
-    value: "=="
-}, 
-{
-    label: "Que contenga",
-    value: ".Contains()",
-    type: "function"
-},
-{
-    label: "Mayor que",
-    value: ">"
-},
-{
-    label: "Menor que",
-    value: "<"
-}]
+const FilterCtiteria = [
+  {
+    label: 'Igual Que',
+    value: '=='
+  },
+  {
+    label: 'Que contenga',
+    value: '.Contains()',
+    type: 'function'
+  },
+  {
+    label: 'Mayor que',
+    value: '>'
+  },
+  {
+    label: 'Menor que',
+    value: '<'
+  }
+]
 
+const Filter = ({
+  item,
+  showFilter,
+  onChangeCriteria,
+  onChangeValue,
+  actualValue,
+  criteria,
+  onApplyFilter,
+  onClearFilter
+}) => {
+  function changeCriteria(value) {
+    const valueCriteria = FilterCtiteria.filter((s) => s.value === value)[0]
 
-const Filter= ({item,rows, showFilter, onChangeCriteria, onChangeValue,actualValue,criteria, onApplyFilter, onClearFilter})=> {
+    onChangeCriteria(valueCriteria)
+  }
 
-
-    function changeCriteria(value){
-        const valueCriteria= FilterCtiteria.filter(s=> s.value=== value)[0];
-
-        onChangeCriteria(valueCriteria);
-    }
-
-    function renderFilter(){
-
-        let filterItem= React.Component;
-        switch(item.filterType){
-            case 'textField': {
-
-                filterItem= (
-                    <div style={{margin: 5}}>
-                        <TextBox 
-                         placeholder={`filtrar por ${item.name}`}
-                         onChangeValue={(event)=> onChangeValue(event.target.value)}
-                         value={actualValue}
-                    />
-                    </div>
-                )
-                break;
-            }
-            case 'date': {
-
-
-                break;
-            }
-            case 'select': {
-
-                const selectItems= rows.map((row)=> {
-
-                    return {
-                        label: row[item.fieldId],
-                        value: row[item.fieldId]
-                    }
-                })
-
-                filterItem= (
-                    <Select 
-                    placeholder={`Filtrar por ${item.name}`}
-                    items={selectItems}
-                    onChangeValue={(event)=> onChangeValue(event.target.value)}
-                    value={actualValue}
-                    />
-                )
-
-                break;
-            }
-
-        }
-
-        return filterItem;
-    }
-
-    return (
-        <Container show={showFilter}>
-            <Select 
-            placeholder="Criterio"
-            items={FilterCtiteria}
-            onChangeValue={(event)=> changeCriteria(event.target.value)}
-            value={criteria}
+  function renderFilter() {
+    let filterItem = React.Component
+    switch (item.filterType) {
+      case 'textField': {
+        filterItem = (
+          <div style={{ margin: 5 }}>
+            <TextBox
+              placeholder={`filtrar por ${item.name}`}
+              onChangeValue={(event) => onChangeValue(event.target.value)}
+              value={actualValue}
             />
-            {renderFilter()}
+          </div>
+        )
+        break
+      }
+      case 'date': {
+        break
+      }
+      case 'select': {
+        filterItem = (
+          <div style={{ margin: 5 }}>
+            <Select
+              placeholder={`Filtrar por ${item.name}`}
+              items={item.filterData}
+              onChangeValue={(event) => onChangeValue(event.target.value)}
+              value={actualValue}
+            />
+          </div>
+        )
 
-            <ButtonConteiner>
-                <Button outlined onClick={onClearFilter}>Limpiar</Button>
-                <Button onClick={onApplyFilter}>Aceptar</Button>
-            </ButtonConteiner>
-        </Container>
-    )
+        break
+      }
+    }
+
+    return filterItem
+  }
+
+  return (
+    <Container show={showFilter}>
+      <Select
+        placeholder='Criterio'
+        items={FilterCtiteria}
+        onChangeValue={(event) => changeCriteria(event.target.value)}
+        value={criteria}
+      />
+      {renderFilter()}
+
+      <ButtonConteiner>
+        <Button outlined onClick={onClearFilter}>
+          Limpiar
+        </Button>
+        <Button onClick={onApplyFilter}>Aceptar</Button>
+      </ButtonConteiner>
+    </Container>
+  )
 }
 
-export default Filter;
-
+export default Filter

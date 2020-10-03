@@ -27,6 +27,11 @@ export const tableDefaultProps= {
             label: "",
             onClick: ()=> null,
             show: false
+        },
+        text: {
+            dataEmptyText: "No hay registros en esta tabla",
+            dataEmptyFilterText: "No hay registros que conincidan con tus filtros",
+            loading: 'Cargando Datos..'
         }
     },
     components: {

@@ -7,6 +7,10 @@ export const DataTableProps = {
     fieldId: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
     filter: PropTypes.bool,
     filterType: PropTypes.oneOfType(['textFiled', 'date', 'select']),
+    filterData: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string
+    })),
     labels: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
       color: PropTypes.string.isRequired
@@ -46,5 +50,10 @@ export const DataTableProps = {
       onClick: PropTypes.func,
       show: PropTypes.bool
     })
+  }).isRequired,
+  text: PropTypes.shape({
+    dataEmptyText: PropTypes.string,
+    dataEmptyFilterText: PropTypes.string,
+    loading: PropTypes.string
   }).isRequired
 }

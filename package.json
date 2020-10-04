@@ -51,6 +51,8 @@
     "dist"
   ],
   "dependencies": {
+    "jspdf": "^2.1.1",
+    "jspdf-autotable": "^3.5.13",
     "moment": "^2.29.0",
     "numeral": "^2.0.6",
     "prop-types": "^15.7.2",

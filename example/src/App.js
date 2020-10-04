@@ -31,7 +31,9 @@ const columns = [
   {
     name: 'Fecha de Creación',
     fieldId: 'createdDate',
-    dataType: 'dateTime'
+    dataType: 'dateTime',
+    filter: true,
+    filterType: 'date'
   },
   {
     name: 'Estado',

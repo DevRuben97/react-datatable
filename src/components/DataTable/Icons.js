@@ -14,7 +14,9 @@ import {
   FaEdit,
   FaTrashAlt,
   FaFilter,
-  FaEllipsisH
+  FaEllipsisH,
+  FaAngleDown,
+  FaTimes
 } from 'react-icons/fa'
 
 export const TableIcons = {
@@ -27,9 +29,12 @@ export const TableIcons = {
   Edit: () => <FaEdit />,
   Delete: () => <FaTrashAlt />,
   Search: () => <FaSearch />,
+  Cancel: ()=> <FaTimes/>,
   UpArrow: () => <FaArrowUp />,
   DownArrow: () => <FaArrowDown />,
+  DownArrowFilter: ()=> <FaAngleDown/>,
   LeftArrow: () => <FaArrowLeft />,
   RigthArrow: () => <FaArrowRight />,
-  RowMenu: ()=> <FaEllipsisH />
+  RowMenu: ()=> <FaEllipsisH />,
+  
 }

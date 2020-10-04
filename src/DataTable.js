@@ -20,6 +20,11 @@ import DataTypeFormater from './utils/DataTypeFormater'
 import { Collapse } from 'react-collapse'
 import RowFilters from './components/DataTable/Filters/RowFilters'
 
+// Contexts:
+
+import IconsContext from './contexts/IconContext'
+import ConfigContext from './contexts/ConfigContext'
+
 const DataTable = ({ columns, remoteData, options, components }) => {
   // Heleprs:
   const typeFormater = new DataTypeFormater(components.icons, options)
@@ -76,12 +81,12 @@ const DataTable = ({ columns, remoteData, options, components }) => {
   async function filter(array) {
     const newObj = { ...tableValues, pageNumber: 1, filters: array }
     setValues(newObj)
-    setIsFiltering(array.length>0);
-    setLoading(true);
+    setIsFiltering(array.length > 0)
+    setLoading(true)
     const { data } = await remoteData(newObj)
     setPagination(data)
     setData(data.data)
-    setLoading(false);
+    setLoading(false)
   }
 
   async function paginate(page) {
@@ -129,87 +134,102 @@ const DataTable = ({ columns, remoteData, options, components }) => {
 
   return (
     <ThemeProvider theme={options?.theme}>
-      <Conteiner>
-        <TableTitle align={options.title.align}>
-          {options.title?.label}
-        </TableTitle>
-        <TableToolBar
-          searchFunction={search}
-          fetchData={fetch}
-          icons={components.icons}
-          selectedRows={selectedRows}
-          showFilters={showFilters}
-          setShowFilters={setShowFilters}
-        />
-        <Collapse isOpened={showFilters}>
-          <RowFilters
-            columns={columns}
-            fetchFilter={filter}
-            setIsFiltering={setIsFiltering}
-          />
-        </Collapse>
-        <Table>
-          <THead>
-            <Tr header cursorPointer>
-              <Th style={{ width: '5%' }}>
-                <DtCheckbox
-                  header
-                  selectedItems={selectedRows}
-                  setSelectedItems={setSelectedRows}
-                  data={data}
-                />
-              </Th>
-              {columns.map((column, index) => (
-                <Th key={index} onClick={() => orderByColumn(column.fieldId)}>
-                  {column.name}
-                  <span>{renderSortColumn(column.fieldId)}</span>
-                </Th>
-              ))}
-              {options.rowActions && typeFormater.renderColumnActions()}
-            </Tr>
-          </THead>
-          <TBody
-            primaryColor={options?.headerBackground}
-            hoverActive={!isLoading && data.length > 0}
-          >
-            {isLoading ? (
-              <LoadingView loadingLabel={options.text.loading} />
-            ) : data.length === 0 && !isLoading ? (
-              <EmptyView label={!isFiltering? options.text.dataEmptyText: options.text.dataEmptyFilterText} />
-            ) : (
-              data.map((item, index) => (
-                <Tr key={index}>
-                  <Td>
+      <IconsContext.Provider value={{ tableIcons: components.icons }}>
+        <ConfigContext.Provider value={{ configuation: options }}>
+          <Conteiner>
+            <TableTitle align={options.title.align}>
+              {options.title?.label}
+            </TableTitle>
+            <TableToolBar
+              searchFunction={search}
+              fetchData={fetch}
+              icons={components.icons}
+              selectedRows={selectedRows}
+              showFilters={showFilters}
+              setShowFilters={setShowFilters}
+              columns={columns}
+            />
+            <Collapse isOpened={showFilters}>
+              <RowFilters
+                columns={columns}
+                fetchFilter={filter}
+                setIsFiltering={setIsFiltering}
+              />
+            </Collapse>
+            <Table>
+              <THead>
+                <Tr header cursorPointer>
+                  <Th style={{ width: '5%' }}>
                     <DtCheckbox
-                      row={item}
+                      header
                       selectedItems={selectedRows}
                       setSelectedItems={setSelectedRows}
+                      data={data}
                     />
-                  </Td>
-                  {Object.keys(item).map((cell, cellIndex) => (
-                    <Td key={cellIndex}>
-                      {typeFormater.formatColumnItem(
-                        columns.filter((s) => s.fieldId === cell)[0],
-                        item[cell]
-                      )}
-                    </Td>
+                  </Th>
+                  {columns.map((column, index) => (
+                    <Th
+                      key={index}
+                      onClick={() => orderByColumn(column.fieldId)}
+                    >
+                      {column.name}
+                      <span>{renderSortColumn(column.fieldId)}</span>
+                    </Th>
                   ))}
-                  {typeFormater.renderActionsColumn(item)}
+                  {options.rowActions && typeFormater.renderColumnActions()}
                 </Tr>
-              ))
-            )}
-          </TBody>
-          <tfoot>
-            <TableFooter
-              totalRecords={pagination.totalRecords}
-              totalPages={pagination.totalPages}
-              currentPage={pagination.pageNumber}
-              changePageSize={changePageSize}
-              icons={components.icons}
-            />
-          </tfoot>
-        </Table>
-      </Conteiner>
+              </THead>
+              <TBody
+                primaryColor={options?.headerBackground}
+                hoverActive={!isLoading && data.length > 0}
+              >
+                {isLoading ? (
+                  <LoadingView loadingLabel={options.text.loading} />
+                ) : data.length === 0 && !isLoading ? (
+                  <EmptyView
+                    label={
+                      !isFiltering
+                        ? options.text.dataEmptyText
+                        : options.text.dataEmptyFilterText
+                    }
+                  />
+                ) : (
+                  data.map((item, index) => (
+                    <Tr key={index}>
+                      <Td>
+                        <DtCheckbox
+                          row={item}
+                          selectedItems={selectedRows}
+                          setSelectedItems={setSelectedRows}
+                        />
+                      </Td>
+                      {Object.keys(item).map((cell, cellIndex) => (
+                        <Td key={cellIndex}>
+                          {typeFormater.formatColumnItem(
+                            columns.filter((s) => s.fieldId === cell)[0],
+                            item[cell]
+                          )}
+                        </Td>
+                      ))}
+                      {typeFormater.renderActionsColumn(item)}
+                    </Tr>
+                  ))
+                )}
+              </TBody>
+              <tfoot>
+                <TableFooter
+                  totalRecords={pagination.totalRecords}
+                  totalPages={pagination.totalPages}
+                  currentPage={pagination.pageNumber}
+                  changePageSize={changePageSize}
+                  icons={components.icons}
+                  paginate={paginate}
+                />
+              </tfoot>
+            </Table>
+          </Conteiner>
+        </ConfigContext.Provider>
+      </IconsContext.Provider>
     </ThemeProvider>
   )
 }

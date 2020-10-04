@@ -8,7 +8,7 @@ export const Button = styled.button`
   color: ${props=> props.outlined? props.theme.primary: "#fff"};
   text-align: center;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: ${props=> props.withoutTextBold? 'none': 'bold'};
   line-height: 38px;
   letter-spacing: 0.1rem;
   text-transform: uppercase;

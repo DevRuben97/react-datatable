@@ -29,7 +29,7 @@ const FilterCtiteria = [
   },
   {
     label: 'Que contenga',
-    value: '.Contains()',
+    value: 'Contains()',
     type: 'function'
   },
   {
@@ -58,6 +58,13 @@ const Filter = ({
     onChangeCriteria(valueCriteria)
   }
 
+  function OnChangeSelect(value){
+
+    const array= [...item.filterData];
+    const selected= array.filter(s=> s.value===Number.parseInt(value))[0];
+    onChangeValue(selected);
+}
+
   function renderFilter() {
     let filterItem = React.Component
     switch (item.filterType) {
@@ -74,16 +81,27 @@ const Filter = ({
         break
       }
       case 'date': {
+
+        filterItem=(
+            <div style={{margin: 5}}>
+                <TextBox 
+                onChangeValue={(event) => onChangeValue(event.target.value)}
+                value={actualValue}
+                type="date"
+                />
+            </div>
+        )
         break
       }
       case 'select': {
+
         filterItem = (
           <div style={{ margin: 5 }}>
             <Select
               placeholder={`Filtrar por ${item.name}`}
               items={item.filterData}
-              onChangeValue={(event) => onChangeValue(event.target.value)}
-              value={actualValue}
+              onChangeValue={(event) => OnChangeSelect(event.target.value)}
+              value={actualValue.value}
             />
           </div>
         )
@@ -101,7 +119,7 @@ const Filter = ({
         placeholder='Criterio'
         items={FilterCtiteria}
         onChangeValue={(event) => changeCriteria(event.target.value)}
-        value={criteria}
+        value={criteria.value}
       />
       {renderFilter()}
 

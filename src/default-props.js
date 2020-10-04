@@ -10,8 +10,8 @@ export const tableDefaultProps= {
             fontFamily: "Segoe UI"
         },
         title: {
-            label: "",
-            align: "center",
+            label: "Una prueba tabla",
+            align: "left",
             icon: ()=> null
         },
         currency: {
@@ -20,7 +20,7 @@ export const tableDefaultProps= {
             showCode: true
         },
         dateTime: {
-            format: 'LL',
+            format: 'MM/DD/YYYY',
             location: 'es-do'
         },
         AddButton: {

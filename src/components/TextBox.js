@@ -30,7 +30,7 @@ font-size: 32px;
 cursor: pointer;
 `
 
-const Button = ({ label, placeholder, value, onChangeValue, focusColor, onClearValue ,onEnter}) => {
+const Button = ({ label, placeholder, value, onChangeValue, focusColor, onClearValue ,onEnter, type='text'}) => {
 
 
   function enter(event){
@@ -44,7 +44,7 @@ const Button = ({ label, placeholder, value, onChangeValue, focusColor, onClearV
       <label>{label}</label>
       <Input
         className='u-full-width'
-        type='text'
+        type={type}
         placeholder={placeholder}
         value={value}
         onChange={onChangeValue}

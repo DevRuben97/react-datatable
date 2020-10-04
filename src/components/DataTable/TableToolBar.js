@@ -16,6 +16,7 @@ const TableToolBar = ({
   isLoading,
   fetchData,
   selectedRows,
+  columns,
   icons,
   showFilters,
   setShowFilters
@@ -45,7 +46,7 @@ const TableToolBar = ({
         </div>
       </div>
       <div>
-        <ExportMenu icons={icons} selectedRows={selectedRows} />
+        <ExportMenu icons={icons} selectedRows={selectedRows} columns={columns}/>
         <Button
           backgroundColor='#007ACC'
           onClick={() => setShowFilters(!showFilters)}

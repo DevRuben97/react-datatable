@@ -36,19 +36,19 @@ export default class DataExport {
   }
 
   csv(){
-    const columnsArray = this.columns.map((item) => `${item.name},`);
+    const columnsArray = this.columns.map((item) => `${item.name}`);
     let table= "";
-
+    
     for(let item=0;item< columnsArray.length;item++){
-      table+= (item=== (columnsArray.length -1))? `${columnsArray[item]}/r/n`: columnsArray[item];
+      table+= (item=== (columnsArray.length -1))? `${columnsArray[item]}\r\n`: `${columnsArray[item]},`;
     }
 
-    // //Add the rows:
-    //  this.rows.map((row) => {
-    //   return Object.keys(row).map((cell,index) => {
-    //     table += index=== Object.keys(row).length? "/r/n": `${row[cell]},`;
-    //   })
-    // })
+    //Add the rows:
+     this.rows.map((row) => {
+      return Object.keys(row).map((cell,index) => {
+        table += index=== (Object.keys(row).length-1)? `${row[cell]}\r\n`: `${row[cell]},`;
+      })
+    })
 
     //Export the file:
     const blod= new Blob([table], {type: 'text/csv'});
@@ -57,7 +57,7 @@ export default class DataExport {
 
     const element= document.createElement('a');
     element.href= url;
-    element.download= "Archivo de prueba.csv";
+    element.download= `${this.title}.csv`;
     element.click();
     element.remove();
 

@@ -21,7 +21,7 @@ const ExportMenu = ({ columns, selectedRows, icons }) => {
     {
       label: 'CSV',
       icon: () => <icons.ExportCsv />,
-      onClick: () => alert('hola')
+      onClick: () => helper.csv()
     }
   ]
 

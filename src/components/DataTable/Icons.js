@@ -16,7 +16,8 @@ import {
   FaFilter,
   FaEllipsisH,
   FaAngleDown,
-  FaTimes
+  FaTimes,
+  FaCog
 } from 'react-icons/fa'
 
 export const TableIcons = {
@@ -36,5 +37,5 @@ export const TableIcons = {
   LeftArrow: () => <FaArrowLeft />,
   RigthArrow: () => <FaArrowRight />,
   RowMenu: ()=> <FaEllipsisH />,
-  
+  ViewConfig: ()=> <FaCog/>
 }

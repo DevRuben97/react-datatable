@@ -156,7 +156,10 @@ const DataTable = ({ columns, remoteData, options, components }) => {
                 setIsFiltering={setIsFiltering}
               />
             </Collapse>
-            <Table>
+            {isLoading? (
+              <LoadingView loadingLabel={options.text.loading} />
+            ): (
+              <Table>
               <THead>
                 <Tr header cursorPointer>
                   <Th style={{ width: '5%' }}>
@@ -183,9 +186,7 @@ const DataTable = ({ columns, remoteData, options, components }) => {
                 primaryColor={options?.headerBackground}
                 hoverActive={!isLoading && data.length > 0}
               >
-                {isLoading ? (
-                  <LoadingView loadingLabel={options.text.loading} />
-                ) : data.length === 0 && !isLoading ? (
+                {data.length === 0 && !isLoading ? (
                   <EmptyView
                     label={
                       !isFiltering
@@ -227,6 +228,7 @@ const DataTable = ({ columns, remoteData, options, components }) => {
                 />
               </tfoot>
             </Table>
+            )}
           </Conteiner>
         </ConfigContext.Provider>
       </IconsContext.Provider>

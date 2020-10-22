@@ -24,15 +24,15 @@ const Body = styled.div`
   text-align: center;
   justify-content: center;
   margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
+  padding: 10px;
   border: 1px solid #888;
-  width: 80%;
+  width: 40%;
   top: 0;
   animation-name: animatetop;
   animation-duration: 0.5s;
 
   &> p{
-    font-size: 25px;
+    font-size: 16px;
   }
 
   @keyframes animatetop {

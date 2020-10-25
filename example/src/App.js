@@ -11,7 +11,7 @@ const columns = [
     name: 'Nombre',
     fieldId: 'name',
     filter: true,
-    filterType: "textField"
+    filterType: 'textField'
   },
   {
     name: 'Precio',
@@ -40,14 +40,17 @@ const columns = [
     fieldId: 'state',
     dataType: 'status',
     filter: true,
-    filterType: "select",
-    filterData: [{
-      label: 'Activo',
-      value: 1
-    },{
-      label: 'Inactivo',
-      value: 2
-    }],
+    filterType: 'select',
+    filterData: [
+      {
+        label: 'Activo',
+        value: 1
+      },
+      {
+        label: 'Inactivo',
+        value: 2
+      }
+    ],
     labels: [
       {
         label: 'Inactivo',
@@ -61,11 +64,53 @@ const columns = [
   }
 ]
 
+const options= {
+  theme: {
+      primary: "#007ACC",
+      fontFamily: "Segoe UI"
+  },
+  title: {
+      label: "Una prueba",
+      align: "left",
+      icon: ()=> null
+  },
+  currency: {
+      currencyCode: "USD",
+      symbol: "$",
+      showCode: true
+  },
+  dateTime: {
+      format: 'MM/DD/YYYY',
+      location: 'es-do'
+  },
+  AddButton: {
+      label: "",
+      onClick: ()=> null,
+      show: false
+  },
+  text: {
+      dataEmptyText: "No hay registros en esta tabla",
+      dataEmptyFilterText: "No hay registros que conincidan con tus filtros",
+      loading: 'Cargando Datos..'
+  },
+  showViewConfig: true,
+  viewsConfig: {
+    columnsGet: async (pageCode,level)=> {
+     return await fetch(`/ViewsConfig?pageCode=${pageCode}&level=${level}`)
+    }
+  }
+}
+
+
 const App = () => {
   return (
     <div>
       <div style={{ textAlign: 'center' }}></div>
-      <DataTable columns={columns} remoteData={get_products} />
+      <DataTable 
+      columns={columns} 
+      remoteData={get_products} 
+      options={options}
+      />
     </div>
   )
 }

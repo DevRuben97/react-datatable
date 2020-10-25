@@ -20,7 +20,8 @@ const TableToolBar = ({
   columns,
   icons,
   showFilters,
-  setShowFilters
+  setShowFilters,
+  showViewConfig
 }) => {
   const [search, setSearch] = useState('')
   const [showModal, setShowModal] = useState(false)
@@ -53,9 +54,11 @@ const TableToolBar = ({
           selectedRows={selectedRows}
           columns={columns}
         />
-        <Button backgroundColor='#007ACC' onClick={() => setShowModal(true)}>
-          <icons.ViewConfig />
-        </Button>
+        {showViewConfig && (
+           <Button backgroundColor='#007ACC' onClick={() => setShowModal(true)}>
+           <icons.ViewConfig />
+         </Button>
+        )}
         <Button
           backgroundColor='#007ACC'
           onClick={() => setShowFilters(!showFilters)}
@@ -69,10 +72,12 @@ const TableToolBar = ({
           <icons.Add /> Agregar Nuevo
         </Button>
       </div>
-      <ViewConfigModal
+      {showViewConfig && (
+        <ViewConfigModal
         show={showModal}
         onClose={() => setShowModal(!showModal)}
       />
+      )}
     </Container>
   )
 }

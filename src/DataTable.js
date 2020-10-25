@@ -148,6 +148,7 @@ const DataTable = ({ columns, remoteData, options, components }) => {
               showFilters={showFilters}
               setShowFilters={setShowFilters}
               columns={columns}
+              showViewConfig={options.showViewConfig}
             />
             <Collapse isOpened={showFilters}>
               <RowFilters

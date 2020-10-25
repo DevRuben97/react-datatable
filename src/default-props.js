@@ -32,7 +32,8 @@ export const tableDefaultProps= {
             dataEmptyText: "No hay registros en esta tabla",
             dataEmptyFilterText: "No hay registros que conincidan con tus filtros",
             loading: 'Cargando Datos..'
-        }
+        },
+        showViewConfig: false,
     },
     components: {
         icons: TableIcons

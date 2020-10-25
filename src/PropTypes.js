@@ -18,6 +18,14 @@ export const DataTableProps = {
   })),
   remoteData: PropTypes.func.isRequired,
   options: PropTypes.shape({
+    showViewConfig: PropTypes.bool,
+    viewsConfig: PropTypes.shape({
+      columnsGet: PropTypes.func.isRequired,
+      ColumnsEdit: PropTypes.func.isRequired,
+      ColumnsCreate: PropTypes.func.isRequired,
+      pageCode: PropTypes.string.isRequired,
+      level: PropTypes.number
+    }),
     theme: PropTypes.shape({
       primary: PropTypes.string,
       fontFamily: PropTypes.string
@@ -50,7 +58,7 @@ export const DataTableProps = {
       onClick: PropTypes.func,
       show: PropTypes.bool
     })
-  }).isRequired,
+  }),
   text: PropTypes.shape({
     dataEmptyText: PropTypes.string,
     dataEmptyFilterText: PropTypes.string,

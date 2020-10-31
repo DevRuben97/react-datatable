@@ -6,7 +6,7 @@ import ExportData from '../../utils/ExportData'
 
 // Context
 import ConfigContext from '../../contexts/ConfigContext'
-const ExportMenu = ({ columns, selectedRows, icons }) => {
+const ExportMenu = ({ columns, selectedRows, icons, isLoading }) => {
   const { configuation } = useContext(ConfigContext)
 
   const helper = new ExportData(columns, selectedRows, configuation.title.label)
@@ -30,7 +30,7 @@ const ExportMenu = ({ columns, selectedRows, icons }) => {
       <Button
         backgroundColor='#007ACC'
         onClick={() => setShowMenu(!showMenu)}
-        disabled={selectedRows.length === 0}
+        disabled={selectedRows.length === 0 || isLoading }
       >
         <icons.Downloand />
       </Button>

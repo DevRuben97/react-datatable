@@ -51,7 +51,7 @@ const DataTable = ({ columns, remoteData, options, components }) => {
   })
   const [data, setData] = useState([])
   const [isFiltering, setIsFiltering] = useState(false)
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(true)
   const [selectedRows, setSelectedRows] = useState([])
   const [showFilters, setShowFilters] = useState(false)
 
@@ -60,6 +60,7 @@ const DataTable = ({ columns, remoteData, options, components }) => {
   }, [])
 
   async function fetch(reload) {
+  
     setLoading(true)
     const { data } = await remoteData(reload ? requestData : tableValues)
     setPagination(data)
@@ -149,6 +150,7 @@ const DataTable = ({ columns, remoteData, options, components }) => {
               setShowFilters={setShowFilters}
               columns={columns}
               showViewConfig={options.showViewConfig}
+              isLoading={isLoading}
             />
             <Collapse isOpened={showFilters}>
               <RowFilters

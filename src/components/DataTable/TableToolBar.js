@@ -21,7 +21,7 @@ const TableToolBar = ({
   icons,
   showFilters,
   setShowFilters,
-  showViewConfig
+  showViewConfig,
 }) => {
   const [search, setSearch] = useState('')
   const [showModal, setShowModal] = useState(false)
@@ -53,22 +53,24 @@ const TableToolBar = ({
           icons={icons}
           selectedRows={selectedRows}
           columns={columns}
+          isLoading={isLoading}
         />
         {showViewConfig && (
-           <Button backgroundColor='#007ACC' onClick={() => setShowModal(true)}>
+           <Button backgroundColor='#007ACC' onClick={() => setShowModal(true)} disabled={isLoading}>
            <icons.ViewConfig />
          </Button>
         )}
         <Button
           backgroundColor='#007ACC'
           onClick={() => setShowFilters(!showFilters)}
+          disabled={isLoading}
         >
           <icons.Filter />
         </Button>
-        <Button backgroundColor='#007ACC' onClick={() => fetchData()}>
+        <Button backgroundColor='#007ACC' onClick={() => fetchData()} disabled={isLoading}>
           <icons.Update />
         </Button>
-        <Button backgroundColor='#007ACC'>
+        <Button backgroundColor='#007ACC' disabled={isLoading}>
           <icons.Add /> Agregar Nuevo
         </Button>
       </div>

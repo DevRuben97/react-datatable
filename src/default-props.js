@@ -23,11 +23,26 @@ export const tableDefaultProps= {
             format: 'MM/DD/YYYY',
             location: 'es-do'
         },
-        AddButton: {
-            label: "",
-            onClick: ()=> null,
-            show: false
-        },
+        toolBar: {
+            AddButton: {
+                label: "",
+                onClick: ()=> null,
+                show: false
+            },
+            showFilters: true,
+            export: {
+                pdf: {
+                    show: true
+                },
+                excel: {
+                    show: true
+                }
+            },
+            reload: {
+                show: true
+            }
+        }
+        ,
         text: {
             dataEmptyText: "No hay registros en esta tabla",
             dataEmptyFilterText: "No hay registros que conincidan con tus filtros",

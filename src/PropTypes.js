@@ -18,14 +18,14 @@ export const DataTableProps = {
   })),
   remoteData: PropTypes.func.isRequired,
   options: PropTypes.shape({
-    showViewConfig: PropTypes.bool,
-    viewsConfig: PropTypes.shape({
-      columnsGet: PropTypes.func.isRequired,
-      ColumnsEdit: PropTypes.func.isRequired,
-      ColumnsCreate: PropTypes.func.isRequired,
-      pageCode: PropTypes.string.isRequired,
-      level: PropTypes.number
-    }),
+    // showViewConfig: PropTypes.bool,
+    // viewsConfig: PropTypes.shape({
+    //   columnsGet: PropTypes.func.isRequired,
+    //   ColumnsEdit: PropTypes.func.isRequired,
+    //   ColumnsCreate: PropTypes.func.isRequired,
+    //   pageCode: PropTypes.string.isRequired,
+    //   level: PropTypes.number
+    // }),
     theme: PropTypes.shape({
       primary: PropTypes.string,
       fontFamily: PropTypes.string
@@ -53,10 +53,32 @@ export const DataTableProps = {
       format: PropTypes.string,
       location: PropTypes.string
     }),
-    addButton: PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      onClick: PropTypes.func,
-      show: PropTypes.bool
+    toolBar: PropTypes.shape({
+      search: PropTypes.shape({
+        placeHolder: PropTypes.string,
+      }),
+      addButton: PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        onClick: PropTypes.func,
+        show: PropTypes.bool
+      }),
+      showFilters: PropTypes.bool,
+      export: PropTypes.shape({
+        pdf: PropTypes.shape({
+          show: PropTypes.bool
+        }),
+        excel: PropTypes.shape({
+          show: PropTypes.bool
+        })
+      }),
+      reLoad: PropTypes.shape({
+        show: PropTypes.bool
+      }),
+      additionalButtons: PropTypes.arrayOf(PropTypes.shape({
+        Icon: PropTypes.func,
+        label: PropTypes.string,
+        action: PropTypes.func
+      }))
     })
   }),
   text: PropTypes.shape({

@@ -93,11 +93,15 @@ const options= {
       dataEmptyFilterText: "No hay registros que conincidan con tus filtros",
       loading: 'Cargando Datos..'
   },
-  showViewConfig: true,
-  viewsConfig: {
-    columnsGet: async (pageCode,level)=> {
-     return await fetch(`/ViewsConfig?pageCode=${pageCode}&level=${level}`)
-    }
+  toolBar: {
+    search: {
+      placeHolder: "Buscar..."
+    },
+    addButton: {
+      label: "Agregar",
+      onClick: ()=> null,
+      show: true
+  },
   }
 }
 

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import TexBox from '../TextBox'
 import { Button, CircleButton } from '../Button'
 import ExportMenu from './ExportMenu'
-import ViewConfigModal from './ViewConfigModal'
+//import ViewConfigModal from './ViewConfigModal'
 
 const Container = styled.div`
   display: flex;
@@ -21,17 +21,17 @@ const TableToolBar = ({
   icons,
   showFilters,
   setShowFilters,
-  showViewConfig,
+  config
 }) => {
   const [search, setSearch] = useState('')
-  const [showModal, setShowModal] = useState(false)
+  // const [showModal, setShowModal] = useState(false)
 
   return (
     <Container>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      {config.search && (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
         <TexBox
-          placeholder='Buscar..'
-          focusColor='#007ACC'
+          placeholder={config.search.placeHolder}
           onChangeValue={(event) => setSearch(event.target.value)}
           value={search}
           onClearValue={() => setSearch('')}
@@ -48,38 +48,60 @@ const TableToolBar = ({
           </CircleButton>
         </div>
       </div>
+      )}
       <div>
-        <ExportMenu
-          icons={icons}
-          selectedRows={selectedRows}
-          columns={columns}
-          isLoading={isLoading}
-        />
-        {showViewConfig && (
+        {/* More buttons */}
+        {config.additionalButtons && config.additionalButtons.map((item,index)=> (
+            <Button
+            key={index}
+            onClick={() => item.action}
+            disabled={isLoading}
+          >
+            <item.icon/>
+          </Button>
+        ))}
+
+        {config.export && (
+          <ExportMenu
+            icons={icons}
+            selectedRows={selectedRows}
+            columns={columns}
+            isLoading={isLoading}
+          />
+        )}
+        {/* {showViewConfig && (
            <Button backgroundColor='#007ACC' onClick={() => setShowModal(true)} disabled={isLoading}>
            <icons.ViewConfig />
          </Button>
+        )} */}
+        {config.showFilters && (
+          <Button
+            onClick={() => setShowFilters(!showFilters)}
+            disabled={isLoading}
+          >
+            <icons.Filter />
+          </Button>
         )}
-        <Button
-          backgroundColor='#007ACC'
-          onClick={() => setShowFilters(!showFilters)}
+        {config.reLoad && (
+          <Button
+          onClick={() => fetchData()}
           disabled={isLoading}
         >
-          <icons.Filter />
-        </Button>
-        <Button backgroundColor='#007ACC' onClick={() => fetchData()} disabled={isLoading}>
           <icons.Update />
         </Button>
-        <Button backgroundColor='#007ACC' disabled={isLoading}>
-          <icons.Add /> Agregar Nuevo
+        )}
+        {config.addButton.show && (
+          <Button onClick={config.addButton.action} disabled={isLoading}>
+          <icons.Add /> {config.addButton.label}
         </Button>
+        )}
       </div>
-      {showViewConfig && (
+      {/* {showViewConfig && (
         <ViewConfigModal
         show={showModal}
         onClose={() => setShowModal(!showModal)}
       />
-      )}
+      )} */}
     </Container>
   )
 }
